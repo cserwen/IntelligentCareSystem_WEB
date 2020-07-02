@@ -7,8 +7,9 @@
 
 		<title>智慧养老系统</title>
 		<meta name="keywords" content="HTML5 Admin Template" />
-		<meta name="description" content="JSOFT Admin - Responsive HTML5 Template">
-		
+		<meta name="description" content="Porto Admin - Responsive HTML5 Template">
+		<meta name="author" content="okler.net">
+
 
 		<!-- Mobile Metas -->
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
@@ -24,8 +25,8 @@
 
 		<!-- Specific Page Vendor CSS -->
 		<link rel="stylesheet" href="assets/vendor/jquery-ui/css/ui-lightness/jquery-ui-1.10.4.custom.css" />
-		<link rel="stylesheet" href="assets/vendor/bootstrap-multiselect/bootstrap-multiselect.css" />
-		<link rel="stylesheet" href="assets/vendor/morris/morris.css" />
+		<link rel="stylesheet" href="assets/vendor/fullcalendar/fullcalendar.css" />
+		<link rel="stylesheet" href="assets/vendor/fullcalendar/fullcalendar.print.css" media="print" />
 
 		<!-- Theme CSS -->
 		<link rel="stylesheet" href="assets/stylesheets/theme.css" />
@@ -38,7 +39,6 @@
 
 		<!-- Head Libs -->
 		<script src="assets/vendor/modernizr/modernizr.js"></script>
-
 	</head>
 	<body>
 		<section class="body">
@@ -328,14 +328,42 @@
 						</div>
 					</header>
 
-						<div class="row">
 
-
-					</div>
 
 					<!-- start: page -->
 
+					<section class="panel">
+						<div class="panel-body">
+							<div class="row">
+								<div class="col-md-9">
+									<div id="calendar"></div>
+								</div>
+								<div class="col-md-3">
+									<p class="h4 text-light">近日活动</p>
 
+									<hr />
+
+									<div id='external-events'>
+										<div class="external-event label label-default" data-event-class="fc-event-default">老人集体活动</div>
+										<div class="external-event label label-primary" data-event-class="fc-event-primary">老人健康检查</div>
+										<div class="external-event label label-success" data-event-class="fc-event-success">义工培训</div>
+										<div class="external-event label label-warning" data-event-class="fc-event-warning">交流会</div>
+										<div class="external-event label label-info" data-event-class="fc-event-info">工作人员例会</div>
+										<div class="external-event label label-danger" data-event-class="fc-event-danger">生日派对</div>
+										<div class="external-event label label-dark" data-event-class="fc-event-dark">志愿者活动</div>
+
+										<hr />
+										<div>
+											<div class="checkbox-custom checkbox-default ib">
+												<input id="RemoveAfterDrop" type="checkbox"/>
+												<label for="RemoveAfterDrop">remove after drop</label>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</section>
 
 					<!-- end: page -->
 				</section>
@@ -378,45 +406,24 @@
 		<script src="assets/vendor/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
 		<script src="assets/vendor/magnific-popup/magnific-popup.js"></script>
 		<script src="assets/vendor/jquery-placeholder/jquery.placeholder.js"></script>
-		
+
 		<!-- Specific Page Vendor -->
 		<script src="assets/vendor/jquery-ui/js/jquery-ui-1.10.4.custom.js"></script>
 		<script src="assets/vendor/jquery-ui-touch-punch/jquery.ui.touch-punch.js"></script>
-		<script src="assets/vendor/jquery-appear/jquery.appear.js"></script>
-		<script src="assets/vendor/bootstrap-multiselect/bootstrap-multiselect.js"></script>
-		<script src="assets/vendor/jquery-easypiechart/jquery.easypiechart.js"></script>
-		<script src="assets/vendor/flot/jquery.flot.js"></script>
-		<script src="assets/vendor/flot-tooltip/jquery.flot.tooltip.js"></script>
-		<script src="assets/vendor/flot/jquery.flot.pie.js"></script>
-		<script src="assets/vendor/flot/jquery.flot.categories.js"></script>
-		<script src="assets/vendor/flot/jquery.flot.resize.js"></script>
-		<script src="assets/vendor/jquery-sparkline/jquery.sparkline.js"></script>
-		<script src="assets/vendor/raphael/raphael.js"></script>
-		<script src="assets/vendor/morris/morris.js"></script>
-		<script src="assets/vendor/gauge/gauge.js"></script>
-		<script src="assets/vendor/snap-svg/snap.svg.js"></script>
-		<script src="assets/vendor/liquid-meter/liquid.meter.js"></script>
-		<script src="assets/vendor/jqvmap/jquery.vmap.js"></script>
-		<script src="assets/vendor/jqvmap/data/jquery.vmap.sampledata.js"></script>
-		<script src="assets/vendor/jqvmap/maps/jquery.vmap.world.js"></script>
-		<script src="assets/vendor/jqvmap/maps/continents/jquery.vmap.africa.js"></script>
-		<script src="assets/vendor/jqvmap/maps/continents/jquery.vmap.asia.js"></script>
-		<script src="assets/vendor/jqvmap/maps/continents/jquery.vmap.australia.js"></script>
-		<script src="assets/vendor/jqvmap/maps/continents/jquery.vmap.europe.js"></script>
-		<script src="assets/vendor/jqvmap/maps/continents/jquery.vmap.north-america.js"></script>
-		<script src="assets/vendor/jqvmap/maps/continents/jquery.vmap.south-america.js"></script>
-		
+		<script src="assets/vendor/fullcalendar/lib/moment.min.js"></script>
+		<script src="assets/vendor/fullcalendar/fullcalendar.js"></script>
+
 		<!-- Theme Base, Components and Settings -->
 		<script src="assets/javascripts/theme.js"></script>
-		
+
 		<!-- Theme Custom -->
 		<script src="assets/javascripts/theme.custom.js"></script>
-		
+
 		<!-- Theme Initialization Files -->
 		<script src="assets/javascripts/theme.init.js"></script>
 
 
 		<!-- Examples -->
-		<script src="assets/javascripts/dashboard/examples.dashboard.js"></script>
+		<script src="assets/javascripts/pages/examples.calendar.js"></script>
 	</body>
 </html>
