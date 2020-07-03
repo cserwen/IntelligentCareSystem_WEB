@@ -1,7 +1,7 @@
 <!doctype html>
 <html class="fixed">
 <head>
-
+    <title>智慧养老系统</title>
     <!-- Basic -->
     <meta charset="UTF-8">
 
@@ -42,7 +42,24 @@
 
     </style>
 
-    <script type="text/javascript">
+    <script type="text/javascript">//script函数
+        var userType ="";
+        function manager(){
+            userType = "manager";
+            alert(userType);
+        }
+        function older(){
+            userType = "older";
+            alert(userType);
+        }
+        function employee(){
+            userType = "employee";
+            alert(userType);
+        }
+        function volunteer(){
+            userType = "volunteer";
+            alert(userType);
+        }
         function signIn() {
             var username = document.getElementById("username").value;
             var password = document.getElementById("password").value;
@@ -65,6 +82,10 @@
                             }
                         }
                     }
+                    else{
+
+
+                    }
                 }
                 var data={
                     username:username,
@@ -79,6 +100,7 @@
                 xhr.send(data);
             }
         }
+
     </script>
 
 </head>
@@ -86,14 +108,33 @@
 <!-- start: page -->
 <section class="body-sign">
     <div class="center-sign">
-        <p align="center" style="font-size:35px ;color:yellowgreen">智能陪护系统</p>
-        <br/>
+        <p align="center" style="font-size:35px ;color:yellowgreen">智能养老系统</p>
+        <br/><br/>
+
         <div class="panel panel-sign">
-            <div class="panel-title-sign mt-xl text-left">
-                <h2 class="title text-uppercase text-bold m-none"><i class="fa fa-user mr-xs"></i> 管理员登录</h2>
+<!--            <div class="panel-title-sign mt-xl text-left">-->
+<!--                <h2 class="title text-uppercase text-bold m-none"><i class="fa fa-user mr-xs"></i> 管理员登录</h2>-->
+<!--            </div>-->
+            <div class="tabs tabs-primary" style="margin: -5px 0px 0px 0px">
+                <ul class="nav nav-tabs" id="myul">
+                    <li class="active" onclick="manager()">
+                        <a href="#popular1" data-toggle="tab">&nbsp;&nbsp;管理员&nbsp;&nbsp;</a>
+                    </li>
+                    <li onclick="older()">
+                        <a href="#recent1" data-toggle="tab">&nbsp;&nbsp;老 &nbsp;&nbsp;&nbsp;&nbsp;人&nbsp;&nbsp;</a>
+                    </li>
+                    <li onclick="employee()">
+                        <a href="#recent1" data-toggle="tab">工作人员</a>
+                    </li>
+                    <li onclick="volunteer()">
+                        <a href="#recent1" data-toggle="tab">&nbsp;&nbsp;义&nbsp;&nbsp;&nbsp;&nbsp;工&nbsp;&nbsp;</a>
+                    </li>
+                </ul>
+
             </div>
+
             <div class="panel-body">
-                <form action="index.html" method="post">
+                <form>
                     <div class="form-group mb-lg">
                         <label>用户名</label>
                         <div class="input-group input-group-icon">
@@ -136,7 +177,7 @@
 
                     <div class="mb-xs text-center">
                         <a class="btn btn-facebook mb-md ml-xs mr-xs" onclick="signIn()">登 录</a>
-
+                        <a class="btn btn-facebook mb-md ml-xs mr-xs" onclick="test()">测试</a>
                     </div>
 
 
