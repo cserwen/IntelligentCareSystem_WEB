@@ -5,7 +5,7 @@
     <!-- Basic -->
     <meta charset="UTF-8">
 
-    <title>老人信息表</title>
+    <title>工作人员信息表</title>
     <meta name="keywords" content="HTML5 Admin Template" />
     <meta name="description" content="Porto Admin - Responsive HTML5 Template">
     <meta name="author" content="okler.net">
@@ -25,6 +25,7 @@
     <!-- Specific Page Vendor CSS -->
     <link rel="stylesheet" href="assets/vendor/select2/select2.css" />
     <link rel="stylesheet" href="assets/vendor/jquery-datatables-bs3/assets/css/datatables.css" />
+    <link rel="stylesheet" href="assets/vendor/pnotify/pnotify.custom.css" />
 
     <!-- Theme CSS -->
     <link rel="stylesheet" href="assets/stylesheets/theme.css" />
@@ -45,12 +46,9 @@
             var hisGender = document.getElementById("testGender");
             var hisPhone = document.getElementById("testPhone");
             var hisIDcard = document.getElementById("testIDcard");
-            var hisCheckinDate = document.getElementById("testCheckinDate");
-            var hisRoomnumber = document.getElementById("testRoomnumber");
-            var hisFirstGuardianName = document.getElementById("testFirstGuardianName");
-            var hisFirstGuardianPhone = document.getElementById("testFirstGuardianPhone");
-            var hisSecondGuardianName = document.getElementById("testSecondGuardianName");
-            var hisSecondGuardianPhone = document.getElementById("testSecondGuardianPhone");
+            var hisHireDate = document.getElementById("testHireDate");
+            var hisDescription = document.getElementById("testDescription");
+
 
 
             xhr.withCredentials = true;
@@ -62,24 +60,18 @@
                     var itsgender =message['data'][1]['gender'];
                     var itsphone =message['data'][2]['phone'];
                     var itsidCard =message['data'][3]['idCard'];
-                    var itscheckInDate =message['data'][4]['checkInDate'];
-                    var itsroomNumber =message['data'][5]['roomNumber'];
-                    var itsfirstGuardianName =message['data'][6]['firstGuardianName'];
-                    var itsfirstGuardianPhone =message['data'][7]['firstGuardianPhone'];
-                    var itssecondGuardianName =message['data'][8]['secondGuardianName'];
-                    var itssecondGuardianPhone =message['data'][9]['secondGuardianPhone'];
+                    var itsHireDate =message['data'][4]['hireDate'];
+                    var itsdescription =message['data'][5]['description'];
+
 
 
                     hisName.innerText= itsname;
                     hisGender.innerText=itsgender;
                     hisPhone.innerText=itsphone;
                     hisIDcard.innerText= itsidCard;
-                    hisCheckinDate.innerText=itscheckInDate ;
-                    hisRoomnumber.innerText=itsroomNumber ;
-                    hisFirstGuardianName.innerText=itsfirstGuardianName ;
-                    hisFirstGuardianPhone.innerText= itsfirstGuardianPhone;
-                    hisSecondGuardianName.innerText=itssecondGuardianName ;
-                    hisSecondGuardianPhone.innerText= itssecondGuardianPhone;
+                    hisHireDate.innerText=itsHireDate ;
+                    hisDescription.innerText=itsdescription ;
+
 
                 }
             }
@@ -88,7 +80,7 @@
             };
 
             text= JSON.stringify(text);
-            url="http://123.56.92.168:8888/oldPerson/getAll";
+            url="http://123.56.92.168:8888/employee/getAll";
             xhr.open("post", url, true)
             xhr.setRequestHeader("Content-Type","application/json;charset=UTF-8");
             xhr.setRequestHeader("token",localStorage.getItem("token"));
@@ -372,18 +364,19 @@
 
 
 
+
         <section role="main" class="content-body">
             <header class="page-header">
-                <h2>老年人信息表</h2>
+                <h2>工作人员信息表</h2>
 
                 <div class="right-wrapper pull-right">
                     <ol class="breadcrumbs">
                         <li>
-                            <a href="index.html">
+                            <a href="xinxiGongzuo.html">
                                 <i class="fa fa-home"></i>
                             </a>
                         </li>
-                        <li><span>老年人信息管理</span></li>
+                        <li><span>工作人员信息管理</span></li>
                         <li><span>信息表</span></li>
                     </ol>
 
@@ -399,8 +392,8 @@
                         <a href="#" class="fa fa-times"></a>
                     </div>
 
-                    <h2 class="panel-title">老年人信息表</h2>
-                   <!-- <input type="button" onclick="test()" value="test">-->
+                    <h2 class="panel-title">工作人员信息表</h2>
+                    <!--  <input type="button" onclick="test()" value="test">  -->
                 </header>
                 <div class="panel-body">
                     <table class="table table-bordered table-striped mb-none" id="datatable-default">
@@ -410,12 +403,9 @@
                             <th>性别</th>
                             <th>电话</th>
                             <th>身份证号</th>
-                            <th>入院日期</th>
-                            <th>房间号</th>
-                            <th>第一监护人</th>
-                            <th>第一监护人电话</th>
-                            <th>第二监护人</th>
-                            <th>第二监护人电话</th>
+                            <th>入职日期</th>
+                            <th>描述</th>
+
                             <th>更多</th>
                         </tr>
                         </thead>
@@ -426,11 +416,7 @@
                             <td>13311396785</td>
                             <td>101245194505076754</td>
                             <td>2020/05/03</td>
-                            <td>201</td>
-                            <td>张梓华</td>
-                            <td>13735005331</td>
-                            <td>张晓文</td>
-                            <td>13311396445</td>
+                            <td>保洁</td>
                             <td style="text-align: center">
                                 <div class="btn-group">
                                     <a class="fa fa-trash-o" title="删除" data-toggle="tooltip" href="#"><i class="mdi mdi-window-close"></i></a>
@@ -443,59 +429,51 @@
                             <td id="testGender"></td>
                             <td id="testPhone"></td>
                             <td id="testIDcard"></td>
-                            <td id="testCheckinDate"></td>
-                            <td id="roomNumber"></td>
-                            <td id="testFirstGuardianName"></td>
-                            <td id="testFirstGuardianPhone"></td>
-                            <td id="testSecondGuardianName"></td>
-                            <td id="testSecondGuardianPhone"></td>
+                            <td id="testHireDate"></td>
+                            <td id="testDescription"></td>
+                            <td style="text-align: center">
+                                <div class="btn-group">
+                                    <a class="fa fa-trash-o" title="删除" data-toggle="tooltip" href="#"><i class="mdi mdi-window-close"></i></a>
+                                </div>
+                            </td>
                         </tr>
                         -->
                         <tr class="gradeA">
-                            <td>李四</td>
+                            <td>张三</td>
                             <td>男</td>
-                            <td>13856136785</td>
-                            <td>101245195008304334</td>
-                            <td>2019/08/15</td>
-                            <td>202</td>
-                            <td>李华</td>
-                            <td>13535057431</td>
-                            <td>李晓华</td>
-                            <td>17383406445</td>
-                            <td style="text-align: center">
-                                <div class="btn-group">
-                                    <a class="fa fa-trash-o" title="删除" data-toggle="tooltip" href="#"><i class="mdi mdi-window-close"></i></a>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr class="gradeA">
-                            <td>王花花</td>
-                            <td>女</td>
-                            <td>18527996785</td>
-                            <td>101245196609032825</td>
-                            <td>2028/05/23</td>
-                            <td>203</td>
-                            <td>王栋</td>
-                            <td>13735008351</td>
-                            <td>王爽</td>
-                            <td>13374385314</td>
-                            <td style="text-align: center">
-                                <div class="btn-group">
-                                    <a class="fa fa-trash-o" title="删除" data-toggle="tooltip" href="#"><i class="mdi mdi-window-close"></i></a>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr class="gradeA">
-                            <td>赵芳华</td>
-                            <td>女</td>
-                            <td>18811096785</td>
-                            <td>101217195308076754</td>
+                            <td>13311396785</td>
+                            <td>101245194505076754</td>
                             <td>2020/05/03</td>
-                            <td>204</td>
-                            <td>王谦</td>
-                            <td>13735085331</td>
-                            <td>于梅丽</td>
-                            <td>13311826445</td>
+
+                            <td>食堂</td>
+                            <td style="text-align: center">
+                                <div class="btn-group">
+                                    <a class="fa fa-trash-o" title="删除" data-toggle="tooltip" href="#"><i class="mdi mdi-window-close"></i></a>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr class="gradeA">
+                            <td>张三</td>
+                            <td>男</td>
+                            <td>13311396785</td>
+                            <td>101245194505076754</td>
+                            <td>2020/05/03</td>
+
+                            <td>保洁</td>
+                            <td style="text-align: center">
+                                <div class="btn-group">
+                                    <a class="fa fa-trash-o" title="删除" data-toggle="tooltip" href="#"><i class="mdi mdi-window-close"></i></a>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr class="gradeA">
+                            <td>张三</td>
+                            <td>男</td>
+                            <td>13311396785</td>
+                            <td>101245194505076754</td>
+                            <td>2020/05/03</td>
+
+                            <td>食堂</td>
                             <td style="text-align: center">
                                 <div class="btn-group">
                                     <a class="fa fa-trash-o" title="删除" data-toggle="tooltip" href="#"><i class="mdi mdi-window-close"></i></a>
@@ -568,6 +546,9 @@
 
 
 
+
+
+
 <!-- Vendor -->
 <script src="assets/vendor/jquery/jquery.js"></script>
 <script src="assets/vendor/jquery-browser-mobile/jquery.browser.mobile.js"></script>
@@ -580,8 +561,8 @@
 <!-- Specific Page Vendor -->
 <script src="assets/vendor/select2/select2.js"></script>
 <script src="assets/vendor/jquery-datatables/media/js/jquery.dataTables.js"></script>
-<script src="assets/vendor/jquery-datatables/extras/TableTools/js/dataTables.tableTools.min.js"></script>
 <script src="assets/vendor/jquery-datatables-bs3/assets/js/datatables.js"></script>
+<script src="assets/vendor/pnotify/pnotify.custom.js"></script>
 
 <!-- Theme Base, Components and Settings -->
 <script src="assets/javascripts/theme.js"></script>
@@ -594,8 +575,6 @@
 
 
 <!-- Examples -->
-<script src="assets/javascripts/tables/examples.datatables.default.js"></script>
-<script src="assets/javascripts/tables/examples.datatables.row.with.details.js"></script>
-<script src="assets/javascripts/tables/examples.datatables.tabletools.js"></script>
+<script src="assets/javascripts/tables/examples.datatables.editable.js"></script>
 </body>
 </html>
