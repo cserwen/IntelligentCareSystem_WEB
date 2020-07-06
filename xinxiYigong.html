@@ -39,6 +39,10 @@
     <script src="assets/vendor/modernizr/modernizr.js"></script>
 
     <script>
+
+
+
+
         function test() {
             var xhr = new XMLHttpRequest();
             var hisName = document.getElementById("testName");
@@ -391,7 +395,9 @@
                         <a href="#" class="fa fa-times"></a>
                     </div>
 
-                    <h2 class="panel-title">义工信息表</h2>
+                    <h2 class="panel-title">义工信息表</h2><br>
+                    <button id="addToTable" class="btn btn-primary" onclick="add">添加信息 <i ></i></button>
+
                   <!--  <input type="button" onclick="test()" value="test">    -->
                 </header>
                 <div class="panel-body">
@@ -416,10 +422,10 @@
                             <td>101245194505076754</td>
                             <td>2020/05/03</td>
                             <td>拉拉阿拉</td>
-                            <td style="text-align: center">
-                                <div class="btn-group">
-                                    <a class="fa fa-trash-o" title="删除" data-toggle="tooltip" href="#"><i class="mdi mdi-window-close"></i></a>
-                                </div>
+                            <td class="actions">
+
+                                <a href="#" class="on-default edit-row"><i class="fa fa-pencil"></i></a>
+                                <a href="#" class="on-default remove-row"><i class="fa fa-trash-o"></i></a>
                             </td>
                         </tr>
                         <!--
@@ -430,11 +436,13 @@
                             <td id="testIDcard"></td>
                             <td id="testcheckInDate"></td>
                             <td id="testDescription"></td>
-                            <td style="text-align: center">
-                                <div class="btn-group">
-                                    <a class="fa fa-trash-o" title="删除" data-toggle="tooltip" href="#"><i class="mdi mdi-window-close"></i></a>
-                                </div>
+
+                                <td class="actions">
+
+                                <a href="#" class="on-default edit-row"><i class="fa fa-pencil"></i></a>
+                                <a href="#" class="on-default remove-row"><i class="fa fa-trash-o"></i></a>
                             </td>
+
                         </tr>
                         -->
                         <tr class="gradeA">
@@ -445,10 +453,10 @@
                             <td>2020/05/03</td>
 
                             <td>张梓华</td>
-                            <td style="text-align: center">
-                                <div class="btn-group">
-                                    <a class="fa fa-trash-o" title="删除" data-toggle="tooltip" href="#"><i class="mdi mdi-window-close"></i></a>
-                                </div>
+                            <td class="actions">
+
+                                <a href="#" class="on-default edit-row"><i class="fa fa-pencil"></i></a>
+                                <a href="#" class="on-default remove-row"><i class="fa fa-trash-o"></i></a>
                             </td>
                         </tr>
                         <tr class="gradeA">
@@ -459,10 +467,10 @@
                             <td>2020/05/03</td>
 
                             <td>保洁</td>
-                            <td style="text-align: center">
-                                <div class="btn-group">
-                                    <a class="fa fa-trash-o" title="删除" data-toggle="tooltip" href="#"><i class="mdi mdi-window-close"></i></a>
-                                </div>
+                            <td class="actions">
+
+                                <a href="#" class="on-default edit-row"><i class="fa fa-pencil"></i></a>
+                                <a href="#" class="on-default remove-row"><i class="fa fa-trash-o"></i></a>
                             </td>
                         </tr>
                         <tr class="gradeA">
@@ -473,10 +481,10 @@
                             <td>2020/05/03</td>
 
                             <td>食堂</td>
-                            <td style="text-align: center">
-                                <div class="btn-group">
-                                    <a class="fa fa-trash-o" title="删除" data-toggle="tooltip" href="#"><i class="mdi mdi-window-close"></i></a>
-                                </div>
+                            <td class="actions">
+
+                                <a href="#" class="on-default edit-row"><i class="fa fa-pencil"></i></a>
+                                <a href="#" class="on-default remove-row"><i class="fa fa-trash-o"></i></a>
                             </td>
                         </tr>
 
