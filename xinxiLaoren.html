@@ -40,62 +40,65 @@
 
     <script>
         function test() {
-            var xhr = new XMLHttpRequest();
-            var hisName = document.getElementById("testName");
-            var hisGender = document.getElementById("testGender");
-            var hisPhone = document.getElementById("testPhone");
-            var hisIDcard = document.getElementById("testIDcard");
-            var hisCheckinDate = document.getElementById("testCheckinDate");
-            var hisRoomnumber = document.getElementById("testRoomnumber");
-            var hisFirstGuardianName = document.getElementById("testFirstGuardianName");
-            var hisFirstGuardianPhone = document.getElementById("testFirstGuardianPhone");
-            var hisSecondGuardianName = document.getElementById("testSecondGuardianName");
-            var hisSecondGuardianPhone = document.getElementById("testSecondGuardianPhone");
+
+                var xhr = new XMLHttpRequest();
+                var hisName = document.getElementById("testName");
+                var hisGender = document.getElementById("testGender");
+                var hisPhone = document.getElementById("testPhone");
+                var hisIDcard = document.getElementById("testIDcard");
+                var hisCheckinDate = document.getElementById("testCheckinDate");
+                var hisRoomnumber = document.getElementById("testRoomnumber");
+                var hisFirstGuardianName = document.getElementById("testFirstGuardianName");
+                var hisFirstGuardianPhone = document.getElementById("testFirstGuardianPhone");
+                var hisSecondGuardianName = document.getElementById("testSecondGuardianName");
+                var hisSecondGuardianPhone = document.getElementById("testSecondGuardianPhone");
 
 
-            xhr.withCredentials = true;
-            xhr.onreadystatechange = function() {
-                if (xhr.readyState == 4 && xhr.status == 200) {
-                    alert(xhr.responseText);
-                    var message =JSON.parse(xhr.responseText);
-                    var itsname =message['data'][0]['username'];
-                    var itsgender =message['data'][1]['gender'];
-                    var itsphone =message['data'][2]['phone'];
-                    var itsidCard =message['data'][3]['idCard'];
-                    var itscheckInDate =message['data'][4]['checkInDate'];
-                    var itsroomNumber =message['data'][5]['roomNumber'];
-                    var itsfirstGuardianName =message['data'][6]['firstGuardianName'];
-                    var itsfirstGuardianPhone =message['data'][7]['firstGuardianPhone'];
-                    var itssecondGuardianName =message['data'][8]['secondGuardianName'];
-                    var itssecondGuardianPhone =message['data'][9]['secondGuardianPhone'];
+                xhr.withCredentials = true;
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState == 4 && xhr.status == 200) {
+                        alert(xhr.responseText);
+                        var message = JSON.parse(xhr.responseText);
+                        var itsname = message['data'][0]['username'];
+                        var itsgender = message['data'][1]['gender'];
+                        var itsphone = message['data'][2]['phone'];
+                        var itsidCard = message['data'][3]['idCard'];
+                        var itscheckInDate = message['data'][4][' checkInDate'];
+                        var itsroomNumber = message['data'][5]['roomNumber'];
+                        var itsfirstGuardianName = message['data'][6]['firstGuardianName'];
+                        var itsfirstGuardianPhone = message['data'][7]['firstGuardianPhone'];
+                        var itssecondGuardianName = message['data'][8]['secondGuardianName'];
+                        var itssecondGuardianPhone = message['data'][9]['secondGuardianPhone'];
 
 
-                    hisName.innerText= itsname;
-                    hisGender.innerText=itsgender;
-                    hisPhone.innerText=itsphone;
-                    hisIDcard.innerText= itsidCard;
-                    hisCheckinDate.innerText=itscheckInDate ;
-                    hisRoomnumber.innerText=itsroomNumber ;
-                    hisFirstGuardianName.innerText=itsfirstGuardianName ;
-                    hisFirstGuardianPhone.innerText= itsfirstGuardianPhone;
-                    hisSecondGuardianName.innerText=itssecondGuardianName ;
-                    hisSecondGuardianPhone.innerText= itssecondGuardianPhone;
+                        hisName.innerText = itsname;
+                        hisGender.innerText = itsgender;
+                        hisPhone.innerText = itsphone;
+                        hisIDcard.innerText = itsidCard;
+                        hisCheckinDate.innerText = itscheckInDate;
+                        hisRoomnumber.innerText = itsroomNumber;
+                        hisFirstGuardianName.innerText = itsfirstGuardianName;
+                        hisFirstGuardianPhone.innerText = itsfirstGuardianPhone;
+                        hisSecondGuardianName.innerText = itssecondGuardianName;
+                        hisSecondGuardianPhone.innerText = itssecondGuardianPhone;
 
+                    }
                 }
-            }
-            var text={
-                "id": 0
-            };
+                var text = {
+                    "id": 0
+                };
 
-            text= JSON.stringify(text);
-            url="http://123.56.92.168:8888/oldPerson/getAll";
-            xhr.open("post", url, true)
-            xhr.setRequestHeader("Content-Type","application/json;charset=UTF-8");
-            xhr.setRequestHeader("token",localStorage.getItem("token"));
-            xhr.send(text);
+                text = JSON.stringify(text);
+                url = "http://123.56.92.168:8888/oldPerson/getAll";
+                xhr.open("post", url, true)
+                xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+                xhr.setRequestHeader("token", localStorage.getItem("token"));
+                xhr.send(text);
 
 
         }
+
+
     </script>
 
 
@@ -255,7 +258,7 @@
                                     </li>
                                     <li>
                                         <a href="tongjiLaoren.html">
-                                            统计表
+                                            信息采集
                                         </a>
                                     </li>
 
@@ -274,7 +277,7 @@
                                     </li>
                                     <li>
                                         <a href="tongjiGongzuo.html">
-                                            统计表
+                                            信息采集
                                         </a>
                                     </li>
 
@@ -293,7 +296,7 @@
                                     </li>
                                     <li>
                                         <a href="tongjiYigong.html">
-                                            统计表
+                                            信息采集
                                         </a>
                                     </li>
 
@@ -400,7 +403,7 @@
                     </div>
 
                     <h2 class="panel-title">老年人信息表</h2>
-                   <!-- <input type="button" onclick="test()" value="test">-->
+                   <input type="button" onclick="test()" value="test">
                 </header>
                 <div class="panel-body">
                     <table class="table table-bordered table-striped mb-none" id="datatable-default">
@@ -437,7 +440,7 @@
                                 </div>
                             </td>
                         </tr>
-                        <!--
+
                         <tr class="gradeC">
                             <td id="testName"></td>
                             <td id="testGender"></td>
@@ -450,7 +453,7 @@
                             <td id="testSecondGuardianName"></td>
                             <td id="testSecondGuardianPhone"></td>
                         </tr>
-                        -->
+
                         <tr class="gradeA">
                             <td>李四</td>
                             <td>男</td>
