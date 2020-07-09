@@ -43,22 +43,22 @@
     </style>
 
     <script type="text/javascript">//script函数
-        var userType ="";
+        var userType ="manager";
         function manager(){
             userType = "manager";
-            alert(userType);
+
         }
         function older(){
             userType = "older";
-            alert(userType);
+
         }
         function employee(){
             userType = "employee";
-            alert(userType);
+
         }
         function volunteer(){
             userType = "volunteer";
-            alert(userType);
+
         }
         function signIn() {
             var username = document.getElementById("username").value;
@@ -67,13 +67,23 @@
                 alert("用户名或密码不能为空");
             } else {
                 var xhr = new XMLHttpRequest();
+
                 xhr.onreadystatechange = function() {
                     if (xhr.readyState == 4 && xhr.status == 200) {
                         var temp =JSON.parse(xhr.responseText);
                         var result = temp['code'];
                         if(result == 0){
-                            localStorage.setItem("token",temp['data']);
-                            window.location.href="index.html";
+                            sessionStorage.setItem("token",temp['data']);
+                            if(userType == "manager"){
+                                window.location.href="index.html";
+                            }else if(userType == "older"){
+                                window.location.href="getOlderInformation.html";
+                            }else if(userType=="employee"){
+                                window.location.href="getEmployeeInformation.html";
+                            }else{
+                                window.location.href="getVolunteerInformation.html";
+                            }
+
                         }else{
                             if(temp['msg']== "no such user!"){
                                 alert("用户不存在	");
@@ -87,14 +97,23 @@
 
                     }
                 }
+
                 var data={
                     username:username,
                     password:password,
 
                 };
                 data= JSON.stringify(data);
-
-                url="http://123.56.92.168:8888/sysUser/login";
+                if(userType == "manager"){
+                    url="http://123.56.92.168:8888/sysUser/login";
+                }else if(userType == "older"){
+                    url="http://123.56.92.168:8888/oldPerson/login";
+                }else if(userType == "employee"){
+                    url="http://123.56.92.168:8888/employee/login";
+                }else{
+                    alert(userType);
+                    url="http://123.56.92.168:8888/volunteer/login";
+                }
                 xhr.open("post", url, true);
                 xhr.setRequestHeader("Content-Type","application/json;charset=UTF-8");
                 xhr.send(data);
@@ -120,15 +139,15 @@
                     <li class="active" onclick="manager()">
                         <a href="#popular1" data-toggle="tab">&nbsp;&nbsp;管理员&nbsp;&nbsp;</a>
                     </li>
-                    <li onclick="older()">
-                        <a href="#recent1" data-toggle="tab">&nbsp;&nbsp;老 &nbsp;&nbsp;&nbsp;&nbsp;人&nbsp;&nbsp;</a>
-                    </li>
-                    <li onclick="employee()">
-                        <a href="#recent1" data-toggle="tab">工作人员</a>
-                    </li>
-                    <li onclick="volunteer()">
-                        <a href="#recent1" data-toggle="tab">&nbsp;&nbsp;义&nbsp;&nbsp;&nbsp;&nbsp;工&nbsp;&nbsp;</a>
-                    </li>
+<!--                    <li onclick="older()">-->
+<!--                        <a href="#recent1" data-toggle="tab">&nbsp;&nbsp;老 &nbsp;&nbsp;&nbsp;&nbsp;人&nbsp;&nbsp;</a>-->
+<!--                    </li>-->
+<!--                    <li onclick="employee()">-->
+<!--                        <a href="#recent1" data-toggle="tab">工作人员</a>-->
+<!--                    </li>-->
+<!--                    <li onclick="volunteer()">-->
+<!--                        <a href="#recent1" data-toggle="tab">&nbsp;&nbsp;义&nbsp;&nbsp;&nbsp;&nbsp;工&nbsp;&nbsp;</a>-->
+<!--                    </li>-->
                 </ul>
 
             </div>
@@ -177,7 +196,6 @@
 
                     <div class="mb-xs text-center">
                         <a class="btn btn-facebook mb-md ml-xs mr-xs" onclick="signIn()">登 录</a>
-                        <a class="btn btn-facebook mb-md ml-xs mr-xs" onclick="test()">测试</a>
                     </div>
 
 
