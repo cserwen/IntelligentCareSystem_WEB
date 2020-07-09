@@ -38,61 +38,376 @@
 
     <!-- Head Libs -->
     <script src="assets/vendor/modernizr/modernizr.js"></script>
+    <style scoped>
+        .div4 {
+            text-align: center;
+            line-height: 200px;
+            width: 300px;
+            height: 200px;
+            opacity:1;
+            border: 1px solid black;
+            position: fixed;
+            left: 600px;
+            top: 250px;
+            background:white;
+            z-index: 3;
 
+        }
+    </style>
     <script>
-        function test() {
+
+        function getTabele() {
+            if (sessionStorage.getItem("token")==null){
+                //var myurl="signIn.html";
+                window.location.href="signIn.html";
+            }else{
+                var xhr = new XMLHttpRequest();
+                xhr.withCredentials = true;
+                xhr.onreadystatechange = function() {
+                    if (xhr.readyState == 4 && xhr.status == 200) {
+                        var temp =JSON.parse(xhr.responseText);
+                        var information = temp['data'];
+                        let a = document.getElementById("employee_table_body");
+                        a.innerText="";
+                        for(var i=0;i<information.length;i++){
+
+                            let d =  document.createElement("tr");
+                            d.className="gradeX";
+                            d.style.border="1px solid #ddd";
+                            d.style.padding="8px";
+                            d.style.lineHeight="3";
+                            //d.style.verticalAlign="center";
+                            d.style.alignContent="center";
+                            d.style.backgroundColor="#f5f5f5";
+                            let a_2 =document.createElement("td");
+                            a_2.style.border="1px solid #ddd";
+                            let a_3 =document.createElement("td");
+                            a_3.style.border="1px solid #ddd";
+                            let a_4 =document.createElement("td");
+                            a_4.style.border="1px solid #ddd";
+                            let a_5 =document.createElement("td");
+                            a_5.style.border="1px solid #ddd";
+                            let a_6 =document.createElement("td");
+                            a_6.style.border="1px solid #ddd";
+                            let a_7 =document.createElement("td");
+                            a_7.style.border="1px solid #ddd";
+                            let a_8 =document.createElement("td");
+
+                            a_8.style.border="1px solid #ddd";
+                            let action1 = document.createElement("button");
+                            action1.type="button"
+                            action1.setAttribute("class","mb-xs mt-xs mr-xs btn btn-success");
+                            action1.innerText="修改";
+                            action1.id=information[i]['username'];
+
+                            // action1.setAttribute('data-target',"#modalForm1");
+                            action1.onclick=function(){
+                                var employeeName2 = document.getElementById("employeeName2");
+                                employeeName2.value=action1.id;
+
+                                employeeName2.setAttribute("disabled","true");
+                                doIt();
+
+
+
+                            }
+                            // // action1.setAttribute('innerText',"修改信息");
+                            // action1.href=modalBox;
+                            // action1.class="modal-with-form btn btn-default";
+                            // action1.innerText="修改信息";
+                            // action1.appendChild(button1);
+
+                            let action2 = document.createElement("button");
+                            action2.type="button";
+                            action2.id=information[i]['id'];
+                            action2.setAttribute("class","mb-xs mt-xs mr-xs btn btn-success");
+                            action2.innerText = "删除";
+                            action2.onclick=function(){
+                                deleteEmployee(action2.id);
+                            }
+
+                            let action3 = document.createElement("button");
+                            action3.type="button";
+                            action3.innerText = "采集信息";
+                            action3.id=information[i]['username'];
+                            action3.setAttribute("class","mb-xs mt-xs mr-xs btn btn-success");
+                            action3.onclick=function(){
+                                logIn(action3.id);
+                            }
+                            a_2.textContent =information[i]['username'];
+                            a_3.textContent=information[i]['gender'];
+                            a_4.textContent=information[i]['phone'];
+                            a_5.textContent=information[i]['idCard'];
+                            a_6.textContent=information[i]['checkInDate'];
+                            a_7.textContent=information[i]['description'];
+                            a_8.append(action1);
+                            a_8.append(action2);
+                            a_8.append(action3);
+                            d.appendChild(a_2);
+                            d.appendChild(a_3);
+                            d.appendChild(a_4);
+                            d.appendChild(a_5);
+                            d.appendChild(a_6);
+                            d.appendChild(a_7);
+                            d.appendChild(a_8);
+                            a.appendChild(d);
+                        }
+                    }
+                }
+                var text={
+                    "id": 0
+                };
+
+                text= JSON.stringify(text);
+                url="http://123.56.92.168:8888/employee/getAll";
+                xhr.open("post", url, true)
+                xhr.setRequestHeader("Content-Type","application/json;charset=UTF-8");
+                xhr.setRequestHeader("token",sessionStorage.getItem("token"));
+                xhr.send(text);
+            }
+
+        }
+
+        function search(){
+            var personName = document.getElementById("personName").value;
+            if(personName == ""){
+                alert("请输入工作人员的姓名");
+            }else{
+                var xhr = new XMLHttpRequest();
+                xhr.withCredentials = true;
+                xhr.onreadystatechange = function() {
+                    if (xhr.readyState == 4 && xhr.status == 200) {
+                        var temp =JSON.parse(xhr.responseText);
+                        var information = temp['data'];
+                        if(information!=null){
+                            let a = document.getElementById("employee_table_body");
+                            a.innerText="";
+                            let d =  document.createElement("tr");
+                            d.className="gradeX";
+                            d.style.border="1px solid #ddd";
+                            d.style.padding="8px";
+                            d.style.lineHeight="3";
+                            d.style.alignContent="center";
+                            d.style.backgroundColor="#f5f5f5";
+                            let a_2 =document.createElement("td");
+                            a_2.style.border="1px solid #ddd";
+                            let a_3 =document.createElement("td");
+                            a_3.style.border="1px solid #ddd";
+                            let a_4 =document.createElement("td");
+                            a_4.style.border="1px solid #ddd";
+                            let a_5 =document.createElement("td");
+                            a_5.style.border="1px solid #ddd";
+                            let a_6 =document.createElement("td");
+                            a_6.style.border="1px solid #ddd";
+                            let a_7 =document.createElement("td");
+                            a_7.style.border="1px solid #ddd";
+                            let a_8 =document.createElement("td");
+
+                            a_8.style.border="1px solid #ddd";
+                            let action1 = document.createElement("button");
+                            action1.type="button"
+                            action1.innerText="修改";
+                            action1.id=information['username'];
+                            action1.setAttribute("class","mb-xs mt-xs mr-xs btn btn-success");
+
+                            action1.onclick=function(){
+                                var employeeName2 = document.getElementById("employeeName2");
+                                employeeName2.value=action1.id;
+
+                                employeeName2.setAttribute("disabled","true");
+                                doIt();
+                            }
+
+
+                            let action2 = document.createElement("button");
+                            action2.type="button";
+                            action2.id=information['id'];
+                            action2.setAttribute("class","mb-xs mt-xs mr-xs btn btn-success");
+                            action2.innerText = "删除";
+
+                            action2.onclick=function(){
+                                deleteEmployee(action2.id);
+                            }
+
+                            let action3 = document.createElement("button");
+                            action3.type="button";
+                            action3.innerText = "采集信息";
+                            action3.id=information['username'];
+                            action3.setAttribute("class","mb-xs mt-xs mr-xs btn btn-success");
+                            action3.onclick=function(){
+                                logIn(action3.id);
+                            }
+                            a_2.textContent =information['username'];
+                            a_3.textContent=information['gender'];
+                            a_4.textContent=information['phone'];
+                            a_5.textContent=information['idCard'];
+                            a_6.textContent=information['checkInDate'];
+                            a_7.textContent=information['description'];
+                            a_8.append(action1);
+                            a_8.append(action2);
+                            a_8.append(action3);
+                            d.appendChild(a_2);
+                            d.appendChild(a_3);
+                            d.appendChild(a_4);
+                            d.appendChild(a_5);
+                            d.appendChild(a_6);
+                            d.appendChild(a_7);
+                            d.appendChild(a_8);
+                            a.appendChild(d);
+                        }else{
+                            alert("该工作人员不存在，请确认姓名是否正确...");
+                        }
+
+
+
+                    }
+                }
+                var text={
+                    "username": personName
+                };
+
+                text= JSON.stringify(text);
+                url="http://123.56.92.168:8888/employee/getByUserName";
+                xhr.open("post", url, true)
+                xhr.setRequestHeader("Content-Type","application/json;charset=UTF-8");
+                xhr.setRequestHeader("token",sessionStorage.getItem("token"));
+                xhr.send(text);
+            }
+
+        }
+
+        function deleteEmployee(employeeId){
+            var con;
+            con=confirm("确定删除该工作人员及其所有信息?"); //在页面上弹出对话框
+            if(con==true){
+                var xhr = new XMLHttpRequest();
+                xhr.withCredentials = true;
+                xhr.onreadystatechange = function() {
+                    if (xhr.readyState == 4 && xhr.status == 200) {
+                        alert(JSON.parse(xhr.responseText)['msg']);
+                        getTabele();
+                    }
+                }
+                var text={
+                    "id": employeeId
+                };
+
+                text= JSON.stringify(text);
+                url="http://123.56.92.168:8888/employee/delete";
+                xhr.open("post", url, true)
+                xhr.setRequestHeader("Content-Type","application/json;charset=UTF-8");
+                xhr.setRequestHeader("token",sessionStorage.getItem("token"));
+                xhr.send(text);
+            }
+            else {
+
+            }
+        }
+
+        function addEmployee(){
             var xhr = new XMLHttpRequest();
-            var hisName = document.getElementById("testName");
-            var hisGender = document.getElementById("testGender");
-            var hisPhone = document.getElementById("testPhone");
-            var hisIDcard = document.getElementById("testIDcard");
-            var hisHireDate = document.getElementById("testHireDate");
-            var hisDescription = document.getElementById("testDescription");
-
-
-
+            var employeeName = document.getElementById("employeeName").value;
+            var employeeGender = document.getElementById("employeeGender").value;
+            var employeeTelephone = document.getElementById("employeeTelephone").value;
+            var employeeIdCard = document.getElementById("employeeIdCard").value;
+            var employeeCheckInDate = document.getElementById("employeeCheckInDate").value;
+            var employeeDescription = document.getElementById("employeeDescription").value;
             xhr.withCredentials = true;
             xhr.onreadystatechange = function() {
                 if (xhr.readyState == 4 && xhr.status == 200) {
-                    alert(xhr.responseText);
-                    var message =JSON.parse(xhr.responseText);
-                    var itsname =message['data'][0]['username'];
-                    var itsgender =message['data'][1]['gender'];
-                    var itsphone =message['data'][2]['phone'];
-                    var itsidCard =message['data'][3]['idCard'];
-                    var itsHireDate =message['data'][4]['hireDate'];
-                    var itsdescription =message['data'][5]['description'];
-
-
-
-                    hisName.innerText= itsname;
-                    hisGender.innerText=itsgender;
-                    hisPhone.innerText=itsphone;
-                    hisIDcard.innerText= itsidCard;
-                    hisHireDate.innerText=itsHireDate ;
-                    hisDescription.innerText=itsdescription ;
-
-
+                    message=JSON.parse(xhr.responseText)['msg'];
+                    alert(message);
+                    getTabele();
                 }
             }
             var text={
-                "id": 0
+                "username": employeeName,
+                "password":"123",
+                "gender":employeeGender,
+                "phone":employeeTelephone,
+                "idCard":employeeIdCard,
+                "checkInDate":employeeCheckInDate,
+                "description":employeeDescription
             };
-
             text= JSON.stringify(text);
-            url="http://123.56.92.168:8888/employee/getAll";
+            url="http://123.56.92.168:8888/employee/add";
             xhr.open("post", url, true)
             xhr.setRequestHeader("Content-Type","application/json;charset=UTF-8");
-            xhr.setRequestHeader("token",localStorage.getItem("token"));
+            xhr.setRequestHeader("token",sessionStorage.getItem("token"));
             xhr.send(text);
+        }
 
+        function editEmployee(){
+            var xhr = new XMLHttpRequest();
+            var employeeName = document.getElementById("employeeName2").value;
+            var employeeGender = document.getElementById("employeeGender2").value;
+            var employeeTelephone = document.getElementById("employeeTelephone2").value;
+            var employeeIdCard = document.getElementById("employeeIdCard2").value;
+            var employeeCheckInDate = document.getElementById("employeeCheckInDate2").value;
+            var employeeDescription = document.getElementById("employeeDescription2").value;
+            xhr.withCredentials = true;
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    message=JSON.parse(xhr.responseText)['msg'];
+                    alert(message);
+                    getTabele();
+                }
+            }
+            var text={
+                "username": employeeName,
+                "password":"123",
+                "gender":employeeGender,
+                "phone":employeeTelephone,
+                "idCard":employeeIdCard,
+                "checkInDate":employeeCheckInDate,
+                "description":employeeDescription
+            };
+            text= JSON.stringify(text);
+            url="http://123.56.92.168:8888/employee/update";
+            xhr.open("post", url, true)
+            xhr.setRequestHeader("Content-Type","application/json;charset=UTF-8");
+            xhr.setRequestHeader("token",sessionStorage.getItem("token"));
+            xhr.send(text);
+        }
+
+        function doIt() {
+            var div = document.getElementById("show");
+            if (div.style.display == "block" ) {
+                div.style.display = "none";
+            } else {
+                div.style.display = "block";
+            }
+        }
+
+        function logIn(username){
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    alert(xhr.responseText);
+                    var temp =JSON.parse(xhr.responseText);
+                    sessionStorage.setItem("token2",temp['data']);
+                    //document.cookie = xhr.responseText;
+                    window.location.href="getVolunteerInformation.html";
+                }
+            }
+            var data={
+                username:username,
+                password:"123",
+
+            };
+            data= JSON.stringify(data);
+
+            url="http://123.56.92.168:8888/employee/login";
+            xhr.open("post", url, true);
+            xhr.setRequestHeader("Content-Type","application/json;charset=UTF-8");
+            xhr.send(data);
 
         }
     </script>
 
 
 </head>
-<body>
+<body onload="getTabele()">
 <section class="body">
 
     <!-- start: header -->
@@ -188,12 +503,14 @@
 
                 <div class="dropdown-menu">
                     <ul class="list-unstyled">
-                        <li class="divider"></li>
                         <li>
-                            <a role="menuitem" tabindex="-1" href="pages-user-profile.html"><i class="fa fa-user"></i> 个人信息</a>
+                            <a role="menuitem" tabindex="-1" href="managerInfo.html"><i class="fa fa-user"></i> 个人信息</a>
                         </li>
                         <li>
-                            <a role="menuitem" tabindex="-1" href="pages-signin.html"><i class="fa fa-power-off"></i> 退出登录</a>
+                            <a role="menuitem" tabindex="-1" href="changePassword.html"><i class="fa fa-lock"></i> 修改密码</a>
+                        </li>
+                        <li>
+                            <a role="menuitem" tabindex="-1" href="signIn.html"><i class="fa fa-power-off"></i> 退出登录</a>
                         </li>
                     </ul>
                 </div>
@@ -246,26 +563,26 @@
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="tongjiLaoren.html">
+                                        <a href="getOlderInformation.html">
                                             信息采集
                                         </a>
                                     </li>
 
                                 </ul>
                             </li>
-                            <li class="nav-parent">
+                            <li class="nav-parent nav-expanded nav-active">
                                 <a>
                                     <i class="fa fa-list-alt" aria-hidden="true"></i>
                                     <span>工作人员信息管理</span>
                                 </a>
                                 <ul class="nav nav-children">
-                                    <li>
+                                    <li class="nav-active">
                                         <a href="xinxiGongzuo.html">
                                             信息表
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="tongjiGongzuo.html">
+                                        <a href="getEmployeeInformation.html">
                                             信息采集
                                         </a>
                                     </li>
@@ -284,7 +601,7 @@
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="tongjiYigong.html">
+                                        <a href="getVolunteerInformation.html">
                                             信息采集
                                         </a>
                                     </li>
@@ -392,11 +709,30 @@
                         <a href="#" class="fa fa-times"></a>
                     </div>
 
-                    <h2 class="panel-title">工作人员信息表</h2>
-                    <!--  <input type="button" onclick="test()" value="test">  -->
+                    <h2 class="panel-title">工作人员信息表</h2><br>
+                    <div>
+
+                        <a class="mb-xs mt-xs mr-xs modal-basic btn btn-primary" href="#modalForm1" >添加信息</a>
+
+                        <div style="float:right;width: 40%">
+                            <div class="form-group mb-none">
+                                <div class="input-group">
+                                    <input id="personName" type="text" placeholder="请输入工作人员的姓名..." class="form-control input-lg" />
+                                    <span class="input-group-btn" style="width: 30%">
+										<button class="btn btn-primary btn-lg" type="submit" onclick="search()">搜索</button>
+									</span>
+                                </div>
+                            </div>
+
+
+                        </div>
+
+                    </div>
+
+
                 </header>
                 <div class="panel-body">
-                    <table class="table table-bordered table-striped mb-none" id="datatable-default">
+                    <table class="table table-bordered table-striped mb-none" id="employee_table">
                         <thead>
                         <tr>
                             <th>姓名</th>
@@ -405,85 +741,139 @@
                             <th>身份证号</th>
                             <th>入职日期</th>
                             <th>描述</th>
-
-                            <th>更多</th>
+                            <th style="width: 24%">操作</th>
                         </tr>
                         </thead>
-                        <tbody>
-                        <tr class="gradeX">
-                            <td>张三</td>
-                            <td>男</td>
-                            <td>13311396785</td>
-                            <td>101245194505076754</td>
-                            <td>2020/05/03</td>
-                            <td>保洁</td>
-                            <td style="text-align: center">
-                                <div class="btn-group">
-                                    <a class="fa fa-trash-o" title="删除" data-toggle="tooltip" href="#"><i class="mdi mdi-window-close"></i></a>
-                                </div>
-                            </td>
-                        </tr>
-                        <!--
-                        <tr class="gradeC">
-                            <td id="testName"></td>
-                            <td id="testGender"></td>
-                            <td id="testPhone"></td>
-                            <td id="testIDcard"></td>
-                            <td id="testHireDate"></td>
-                            <td id="testDescription"></td>
-                            <td style="text-align: center">
-                                <div class="btn-group">
-                                    <a class="fa fa-trash-o" title="删除" data-toggle="tooltip" href="#"><i class="mdi mdi-window-close"></i></a>
-                                </div>
-                            </td>
-                        </tr>
-                        -->
-                        <tr class="gradeA">
-                            <td>张三</td>
-                            <td>男</td>
-                            <td>13311396785</td>
-                            <td>101245194505076754</td>
-                            <td>2020/05/03</td>
-
-                            <td>食堂</td>
-                            <td style="text-align: center">
-                                <div class="btn-group">
-                                    <a class="fa fa-trash-o" title="删除" data-toggle="tooltip" href="#"><i class="mdi mdi-window-close"></i></a>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr class="gradeA">
-                            <td>张三</td>
-                            <td>男</td>
-                            <td>13311396785</td>
-                            <td>101245194505076754</td>
-                            <td>2020/05/03</td>
-
-                            <td>保洁</td>
-                            <td style="text-align: center">
-                                <div class="btn-group">
-                                    <a class="fa fa-trash-o" title="删除" data-toggle="tooltip" href="#"><i class="mdi mdi-window-close"></i></a>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr class="gradeA">
-                            <td>张三</td>
-                            <td>男</td>
-                            <td>13311396785</td>
-                            <td>101245194505076754</td>
-                            <td>2020/05/03</td>
-
-                            <td>食堂</td>
-                            <td style="text-align: center">
-                                <div class="btn-group">
-                                    <a class="fa fa-trash-o" title="删除" data-toggle="tooltip" href="#"><i class="mdi mdi-window-close"></i></a>
-                                </div>
-                            </td>
-                        </tr>
-
+                        <tbody id="employee_table_body">
 
                         </tbody>
                     </table>
+                    <div class="div4" id="show" style="display: none">
+                        <label>确认修改该成员信息？</label>
+                        <a class="mb-xs mt-xs mr-xs modal-basic btn btn-primary" href="#modalForm2" onclick="doIt()">确认</a>
+                        <a  class="mb-xs mt-xs mr-xs btn btn-primary" href="xinxiGongzuo.html" >返回</a>
+                    </div>
+
+                    <!-- 模态框-->
+                    <section class="panel">
+                        <!-- Modal Form -->
+                        <div id="modalForm1" class="modal-block modal-block-primary mfp-hide">
+                            <section class="panel">
+                                <header class="panel-heading">
+                                    <h2 class="panel-title">添加工作人员</h2>
+                                </header>
+                                <div class="panel-body">
+                                    <form id="demo-form" class="form-horizontal mb-lg" novalidate="novalidate">
+                                        <div class="form-group mt-lg">
+                                            <label class="col-sm-3 control-label">姓名</label>
+                                            <div class="col-sm-9">
+                                                <input type="text" id="employeeName"  class="form-control" placeholder="请输入工作人员的姓名..." required/>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label">性别</label>
+                                            <div class="col-sm-9">
+                                                <input type="text" id="employeeGender" class="form-control" placeholder="请输入工作人员的性别..." required/>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label">电话</label>
+                                            <div class="col-sm-9">
+                                                <input type="text" id="employeeTelephone"  class="form-control" placeholder="请输入工作人员的联系方式..." />
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label">身份证号</label>
+                                            <div class="col-sm-9">
+                                                <input type="text" id="employeeIdCard" class="form-control" placeholder="请输入工作人员的身份证号..." />
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label">入职日期</label>
+                                            <div class="col-sm-9">
+                                                <input type="text" id="employeeCheckInDate" class="form-control" placeholder="请输入工作人员的入职日期..." />
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label">描述</label>
+                                            <div class="col-sm-9">
+                                                <textarea rows="5" id="employeeDescription" class="form-control" placeholder="请输入对该工作人员的描述..." required></textarea>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                                <footer class="panel-footer">
+                                    <div class="row">
+                                        <div class="col-md-12 text-right">
+                                            <button class="btn btn-primary modal-confirm" onclick="addEmployee()">添加</button>
+                                            <button class="btn btn-default modal-dismiss">返回</button>
+                                        </div>
+                                    </div>
+                                </footer>
+                            </section>
+                        </div>
+
+                        <div id="modalForm2" class="modal-block modal-block-primary mfp-hide">
+                            <section class="panel">
+                                <header class="panel-heading">
+                                    <h2 class="panel-title">修改工作人员信息</h2>
+                                </header>
+                                <div class="panel-body">
+                                    <form id="demo-form2" class="form-horizontal mb-lg" novalidate="novalidate">
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label">姓名</label>
+                                            <div class="col-sm-9">
+                                                <input type="text" id="employeeName2" class="form-control"  required/>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label">性别</label>
+                                            <div class="col-sm-9">
+                                                <input type="text" id="employeeGender2" class="form-control" placeholder="请输入工作人员的性别..." required/>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label">电话</label>
+                                            <div class="col-sm-9">
+                                                <input type="text" id="employeeTelephone2"  class="form-control" placeholder="请输入工作人员的联系方式..." />
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label">身份证号</label>
+                                            <div class="col-sm-9">
+                                                <input type="text" id="employeeIdCard2" class="form-control" placeholder="请输入工作人员的身份证号..." />
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label">入职日期</label>
+                                            <div class="col-sm-9">
+                                                <input type="text" id="employeeCheckInDate2" class="form-control" placeholder="请输入工作人员的入职日期..." />
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label">描述</label>
+                                            <div class="col-sm-9">
+                                                <textarea rows="5" id="employeeDescription2" class="form-control" placeholder="请输入对该工作人员的描述..." required></textarea>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                                <footer class="panel-footer">
+                                    <div class="row">
+                                        <div class="col-md-12 text-right">
+                                            <button class="btn btn-primary modal-confirm" onclick="editEmployee()">修改</button>
+                                            <button class="btn btn-default modal-dismiss">返回</button>
+                                        </div>
+                                    </div>
+                                </footer>
+                            </section>
+                        </div>
+
+
+
+                    </section>
+
+
                 </div>
             </section>
             <!-- end: page -->
@@ -576,5 +966,6 @@
 
 <!-- Examples -->
 <script src="assets/javascripts/tables/examples.datatables.editable.js"></script>
+<script src="assets/javascripts/ui-elements/examples.modals.js"></script>
 </body>
 </html>

@@ -37,73 +37,376 @@
 
     <!-- Head Libs -->
     <script src="assets/vendor/modernizr/modernizr.js"></script>
+    <style scoped>
+        .div4 {
+            text-align: center;
+            line-height: 200px;
+            width: 300px;
+            height: 200px;
+            opacity:1;
+            border: 1px solid black;
+            position: fixed;
+            left: 600px;
+            top: 250px;
+            background:white;
+            z-index: 3;
 
+        }
+    </style>
     <script>
-        function test() {
 
+        function getTabele() {
+            if (sessionStorage.getItem("token")==null){
+                //var myurl="signIn.html";
+                window.location.href="signIn.html";
+            }else{
                 var xhr = new XMLHttpRequest();
-                var hisName = document.getElementById("testName");
-                var hisGender = document.getElementById("testGender");
-                var hisPhone = document.getElementById("testPhone");
-                var hisIDcard = document.getElementById("testIDcard");
-                var hisCheckinDate = document.getElementById("testCheckinDate");
-                var hisRoomnumber = document.getElementById("testRoomnumber");
-                var hisFirstGuardianName = document.getElementById("testFirstGuardianName");
-                var hisFirstGuardianPhone = document.getElementById("testFirstGuardianPhone");
-                var hisSecondGuardianName = document.getElementById("testSecondGuardianName");
-                var hisSecondGuardianPhone = document.getElementById("testSecondGuardianPhone");
-
-
-                xhr.withCredentials = true;
-                xhr.onreadystatechange = function () {
+                xhr.withCredentials = true;
+                xhr.onreadystatechange = function() {
                     if (xhr.readyState == 4 && xhr.status == 200) {
-                        alert(xhr.responseText);
-                        var message = JSON.parse(xhr.responseText);
-                        var itsname = message['data'][0]['username'];
-                        var itsgender = message['data'][1]['gender'];
-                        var itsphone = message['data'][2]['phone'];
-                        var itsidCard = message['data'][3]['idCard'];
-                        var itscheckInDate = message['data'][4][' checkInDate'];
-                        var itsroomNumber = message['data'][5]['roomNumber'];
-                        var itsfirstGuardianName = message['data'][6]['firstGuardianName'];
-                        var itsfirstGuardianPhone = message['data'][7]['firstGuardianPhone'];
-                        var itssecondGuardianName = message['data'][8]['secondGuardianName'];
-                        var itssecondGuardianPhone = message['data'][9]['secondGuardianPhone'];
+                        var temp =JSON.parse(xhr.responseText);
+                        var information = temp['data'];
+                        let a = document.getElementById("oldPerson_table_body");
+                        a.innerText="";
+                        for(var i=0;i<information.length;i++){
+
+                            let d =  document.createElement("tr");
+                            d.className="gradeX";
+                            d.style.border="1px solid #ddd";
+                            d.style.padding="8px";
+                            d.style.lineHeight="3";
+                            //d.style.verticalAlign="center";
+                            d.style.alignContent="center";
+                            d.style.backgroundColor="#f5f5f5";
+                            let a_2 =document.createElement("td");
+                            a_2.style.border="1px solid #ddd";
+                            let a_3 =document.createElement("td");
+                            a_3.style.border="1px solid #ddd";
+                            let a_4 =document.createElement("td");
+                            a_4.style.border="1px solid #ddd";
+                            let a_5 =document.createElement("td");
+                            a_5.style.border="1px solid #ddd";
+                            let a_6 =document.createElement("td");
+                            a_6.style.border="1px solid #ddd";
+                            let a_7 =document.createElement("td");
+                            a_7.style.border="1px solid #ddd";
+                            let a_8 =document.createElement("td");
+
+                            a_8.style.border="1px solid #ddd";
+                            let action1 = document.createElement("button");
+                            action1.type="button"
+                            action1.setAttribute("class","mb-xs mt-xs mr-xs btn btn-success");
+                            action1.innerText="修改";
+                            action1.id=information[i]['username'];
+
+                            // action1.setAttribute('data-target',"#modalForm1");
+                            action1.onclick=function(){
+                                var oldPersonName2 = document.getElementById("oldPersonName2");
+                                oldPersonName2.value=action1.id;
+
+                                oldPersonName2.setAttribute("disabled","true");
+                                doIt();
 
 
-                        hisName.innerText = itsname;
-                        hisGender.innerText = itsgender;
-                        hisPhone.innerText = itsphone;
-                        hisIDcard.innerText = itsidCard;
-                        hisCheckinDate.innerText = itscheckInDate;
-                        hisRoomnumber.innerText = itsroomNumber;
-                        hisFirstGuardianName.innerText = itsfirstGuardianName;
-                        hisFirstGuardianPhone.innerText = itsfirstGuardianPhone;
-                        hisSecondGuardianName.innerText = itssecondGuardianName;
-                        hisSecondGuardianPhone.innerText = itssecondGuardianPhone;
 
+                            }
+                            // // action1.setAttribute('innerText',"修改信息");
+                            // action1.href=modalBox;
+                            // action1.class="modal-with-form btn btn-default";
+                            // action1.innerText="修改信息";
+                            // action1.appendChild(button1);
+
+                            let action2 = document.createElement("button");
+                            action2.type="button";
+                            action2.id=information[i]['id'];
+                            action2.setAttribute("class","mb-xs mt-xs mr-xs btn btn-success");
+                            action2.innerText = "删除";
+                            action2.onclick=function(){
+                                deleteOldPerson(action2.id);
+                            }
+
+                            let action3 = document.createElement("button");
+                            action3.type="button";
+                            action3.innerText = "采集信息";
+                            action3.id=information[i]['username'];
+                            action3.setAttribute("class","mb-xs mt-xs mr-xs btn btn-success");
+                            action3.onclick=function(){
+                                logIn(action3.id);
+                            }
+                            a_2.textContent =information[i]['username'];
+                            a_3.textContent=information[i]['gender'];
+                            a_4.textContent=information[i]['phone'];
+                            a_5.textContent=information[i]['idCard'];
+                            a_6.textContent=information[i]['checkInDate'];
+                            a_7.textContent=information[i]['description'];
+                            a_8.append(action1);
+                            a_8.append(action2);
+                            a_8.append(action3);
+                            d.appendChild(a_2);
+                            d.appendChild(a_3);
+                            d.appendChild(a_4);
+                            d.appendChild(a_5);
+                            d.appendChild(a_6);
+                            d.appendChild(a_7);
+                            d.appendChild(a_8);
+                            a.appendChild(d);
+                        }
                     }
                 }
-                var text = {
+                var text={
                     "id": 0
                 };
 
-                text = JSON.stringify(text);
-                url = "http://123.56.92.168:8888/oldPerson/getAll";
+                text= JSON.stringify(text);
+                url="http://123.56.92.168:8888/oldPerson/getAll";
                 xhr.open("post", url, true)
-                xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-                xhr.setRequestHeader("token", localStorage.getItem("token"));
+                xhr.setRequestHeader("Content-Type","application/json;charset=UTF-8");
+                xhr.setRequestHeader("token",sessionStorage.getItem("token"));
                 xhr.send(text);
-
+            }
 
         }
 
+        function search(){
+            var personName = document.getElementById("personName").value;
+            if(personName == ""){
+                alert("请输入老人的姓名");
+            }else{
+                var xhr = new XMLHttpRequest();
+                xhr.withCredentials = true;
+                xhr.onreadystatechange = function() {
+                    if (xhr.readyState == 4 && xhr.status == 200) {
+                        var temp =JSON.parse(xhr.responseText);
+                        var information = temp['data'];
+                        if(information!=null){
+                            let a = document.getElementById("oldPerson_table_body");
+                            a.innerText="";
+                            let d =  document.createElement("tr");
+                            d.className="gradeX";
+                            d.style.border="1px solid #ddd";
+                            d.style.padding="8px";
+                            d.style.lineHeight="3";
+                            d.style.alignContent="center";
+                            d.style.backgroundColor="#f5f5f5";
+                            let a_2 =document.createElement("td");
+                            a_2.style.border="1px solid #ddd";
+                            let a_3 =document.createElement("td");
+                            a_3.style.border="1px solid #ddd";
+                            let a_4 =document.createElement("td");
+                            a_4.style.border="1px solid #ddd";
+                            let a_5 =document.createElement("td");
+                            a_5.style.border="1px solid #ddd";
+                            let a_6 =document.createElement("td");
+                            a_6.style.border="1px solid #ddd";
+                            let a_7 =document.createElement("td");
+                            a_7.style.border="1px solid #ddd";
+                            let a_8 =document.createElement("td");
 
+                            a_8.style.border="1px solid #ddd";
+                            let action1 = document.createElement("button");
+                            action1.type="button"
+                            action1.innerText="修改";
+                            action1.id=information['username'];
+                            action1.setAttribute("class","mb-xs mt-xs mr-xs btn btn-success");
+
+                            action1.onclick=function(){
+                                var oldPersonName2 = document.getElementById("oldPersonName2");
+                                oldPersonName2.value=action1.id;
+
+                                oldPersonName2.setAttribute("disabled","true");
+                                doIt();
+                            }
+
+
+                            let action2 = document.createElement("button");
+                            action2.type="button";
+                            action2.id=information['id'];
+                            action2.setAttribute("class","mb-xs mt-xs mr-xs btn btn-success");
+                            action2.innerText = "删除";
+
+                            action2.onclick=function(){
+                                deleteOldPerson(action2.id);
+                            }
+
+                            let action3 = document.createElement("button");
+                            action3.type="button";
+                            action3.innerText = "采集信息";
+                            action3.id=information['username'];
+                            action3.setAttribute("class","mb-xs mt-xs mr-xs btn btn-success");
+                            action3.onclick=function(){
+                                logIn(action3.id);
+                            }
+                            a_2.textContent =information['username'];
+                            a_3.textContent=information['gender'];
+                            a_4.textContent=information['phone'];
+                            a_5.textContent=information['idCard'];
+                            a_6.textContent=information['checkInDate'];
+                            a_7.textContent=information['description'];
+                            a_8.append(action1);
+                            a_8.append(action2);
+                            a_8.append(action3);
+                            d.appendChild(a_2);
+                            d.appendChild(a_3);
+                            d.appendChild(a_4);
+                            d.appendChild(a_5);
+                            d.appendChild(a_6);
+                            d.appendChild(a_7);
+                            d.appendChild(a_8);
+                            a.appendChild(d);
+                        }else{
+                            alert("该老人不存在，请确认姓名是否正确...");
+                        }
+
+
+
+                    }
+                }
+                var text={
+                    "username": personName
+                };
+
+                text= JSON.stringify(text);
+                url="http://123.56.92.168:8888/oldPerson/getByUserName";
+                xhr.open("post", url, true)
+                xhr.setRequestHeader("Content-Type","application/json;charset=UTF-8");
+                xhr.setRequestHeader("token",sessionStorage.getItem("token"));
+                xhr.send(text);
+            }
+
+        }
+
+        function deleteOldPerson(oldPersonId){
+            var con;
+            con=confirm("确定删除该老人及其所有信息?"); //在页面上弹出对话框
+            if(con==true){
+                var xhr = new XMLHttpRequest();
+                xhr.withCredentials = true;
+                xhr.onreadystatechange = function() {
+                    if (xhr.readyState == 4 && xhr.status == 200) {
+                        alert(JSON.parse(xhr.responseText)['msg']);
+                        getTabele();
+                    }
+                }
+                var text={
+                    "id": oldPersonId
+                };
+
+                text= JSON.stringify(text);
+                url="http://123.56.92.168:8888/oldPerson/delete";
+                xhr.open("post", url, true)
+                xhr.setRequestHeader("Content-Type","application/json;charset=UTF-8");
+                xhr.setRequestHeader("token",sessionStorage.getItem("token"));
+                xhr.send(text);
+            }
+            else {
+
+            }
+        }
+
+        function addOldPerson(){
+            var xhr = new XMLHttpRequest();
+            var oldPersonName = document.getElementById("oldPersonName").value;
+            var oldPersonGender = document.getElementById("oldPersonGender").value;
+            var oldPersonTelephone = document.getElementById("oldPersonTelephone").value;
+            var oldPersonIdCard = document.getElementById("oldPersonIdCard").value;
+            var oldPersonCheckInDate = document.getElementById("oldPersonCheckInDate").value;
+            var oldPersonDescription = document.getElementById("oldPersonDescription").value;
+            xhr.withCredentials = true;
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    message=JSON.parse(xhr.responseText)['msg'];
+                    alert(message);
+                    getTabele();
+                }
+            }
+            var text={
+                "username": oldPersonName,
+                "password":"123",
+                "gender":oldPersonGender,
+                "phone":oldPersonTelephone,
+                "idCard":oldPersonIdCard,
+                "checkInDate":oldPersonCheckInDate,
+                "description":oldPersonDescription
+            };
+            text= JSON.stringify(text);
+            url="http://123.56.92.168:8888/oldPerson/add";
+            xhr.open("post", url, true)
+            xhr.setRequestHeader("Content-Type","application/json;charset=UTF-8");
+            xhr.setRequestHeader("token",sessionStorage.getItem("token"));
+            xhr.send(text);
+        }
+
+        function editOldPerson(){
+            var xhr = new XMLHttpRequest();
+            var oldPersonName = document.getElementById("oldPersonName2").value;
+            var oldPersonGender = document.getElementById("oldPersonGender2").value;
+            var oldPersonTelephone = document.getElementById("oldPersonTelephone2").value;
+            var oldPersonIdCard = document.getElementById("oldPersonIdCard2").value;
+            var oldPersonCheckInDate = document.getElementById("oldPersonCheckInDate2").value;
+            var oldPersonDescription = document.getElementById("oldPersonDescription2").value;
+            xhr.withCredentials = true;
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    message=JSON.parse(xhr.responseText)['msg'];
+                    alert(message);
+                    getTabele();
+                }
+            }
+            var text={
+                "username": oldPersonName,
+                "password":"123",
+                "gender":oldPersonGender,
+                "phone":oldPersonTelephone,
+                "idCard":oldPersonIdCard,
+                "checkInDate":oldPersonCheckInDate,
+                "description":oldPersonDescription
+            };
+            text= JSON.stringify(text);
+            url="http://123.56.92.168:8888/oldPerson/update";
+            xhr.open("post", url, true)
+            xhr.setRequestHeader("Content-Type","application/json;charset=UTF-8");
+            xhr.setRequestHeader("token",sessionStorage.getItem("token"));
+            xhr.send(text);
+        }
+
+        function doIt() {
+            var div = document.getElementById("show");
+            if (div.style.display == "block" ) {
+                div.style.display = "none";
+            } else {
+                div.style.display = "block";
+            }
+        }
+
+        function logIn(username){
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    alert(xhr.responseText);
+                    var temp =JSON.parse(xhr.responseText);
+                    sessionStorage.setItem("token2",temp['data']);
+                    //document.cookie = xhr.responseText;
+                    window.location.href="getVolunteerInformation.html";
+                }
+            }
+            var data={
+                username:username,
+                password:"123",
+
+            };
+            data= JSON.stringify(data);
+
+            url="http://123.56.92.168:8888/oldPerson/login";
+            xhr.open("post", url, true);
+            xhr.setRequestHeader("Content-Type","application/json;charset=UTF-8");
+            xhr.send(data);
+
+        }
     </script>
 
 
 </head>
-<body>
+<body onload="getTabele()">
 <section class="body">
 
     <!-- start: header -->
@@ -201,10 +504,13 @@
                     <ul class="list-unstyled">
                         <li class="divider"></li>
                         <li>
-                            <a role="menuitem" tabindex="-1" href="pages-user-profile.html"><i class="fa fa-user"></i> 个人信息</a>
+                            <a role="menuitem" tabindex="-1" href="managerInfo.html"><i class="fa fa-user"></i> 个人信息</a>
                         </li>
                         <li>
-                            <a role="menuitem" tabindex="-1" href="pages-signin.html"><i class="fa fa-power-off"></i> 退出登录</a>
+                            <a role="menuitem" tabindex="-1" href="changePassword.html"><i class="fa fa-lock"></i> 修改密码</a>
+                        </li>
+                        <li>
+                            <a role="menuitem" tabindex="-1" href="signIn.html"><i class="fa fa-power-off"></i> 退出登录</a>
                         </li>
                     </ul>
                 </div>
@@ -245,19 +551,19 @@
                                 </a>
 
                             </li>
-                            <li class="nav-parent">
+                            <li class="nav-parent nav-expanded nav-active">
                                 <a>
                                     <i class="fa fa-tasks" aria-hidden="true"></i>
                                     <span>老年人信息管理</span>
                                 </a>
                                 <ul class="nav nav-children">
-                                    <li>
+                                    <li class="nav-active">
                                         <a href="xinxiLaoren.html">
                                             信息表
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="tongjiLaoren.html">
+                                        <a href="getOlderInformation.html">
                                             信息采集
                                         </a>
                                     </li>
@@ -276,7 +582,7 @@
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="tongjiGongzuo.html">
+                                        <a href="getEmployeeInformation.html">
                                             信息采集
                                         </a>
                                     </li>
@@ -295,7 +601,7 @@
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="tongjiYigong.html">
+                                        <a href="getVolunteerInformation.html">
                                             信息采集
                                         </a>
                                     </li>
@@ -402,113 +708,171 @@
                         <a href="#" class="fa fa-times"></a>
                     </div>
 
-                    <h2 class="panel-title">老年人信息表</h2>
-                   <input type="button" onclick="test()" value="test">
+                    <h2 class="panel-title">老人信息表</h2><br>
+                    <div>
+
+                        <a class="mb-xs mt-xs mr-xs modal-basic btn btn-primary" href="#modalForm1" >添加信息</a>
+
+                        <div style="float:right;width: 40%">
+                            <div class="form-group mb-none">
+                                <div class="input-group">
+                                    <input id="personName" type="text" placeholder="请输入老人的姓名..." class="form-control input-lg" />
+                                    <span class="input-group-btn" style="width: 30%">
+										<button class="btn btn-primary btn-lg" type="submit" onclick="search()">搜索</button>
+									</span>
+                                </div>
+                            </div>
+
+
+                        </div>
+
+                    </div>
+
+
                 </header>
                 <div class="panel-body">
-                    <table class="table table-bordered table-striped mb-none" id="datatable-default">
+                    <table class="table table-bordered table-striped mb-none" id="oldPerson_table">
                         <thead>
                         <tr>
                             <th>姓名</th>
                             <th>性别</th>
                             <th>电话</th>
                             <th>身份证号</th>
-                            <th>入院日期</th>
-                            <th>房间号</th>
-                            <th>第一监护人</th>
-                            <th>第一监护人电话</th>
-                            <th>第二监护人</th>
-                            <th>第二监护人电话</th>
-                            <th>更多</th>
+                            <th>入职日期</th>
+                            <th>描述</th>
+                            <th style="width: 24%">操作</th>
                         </tr>
                         </thead>
-                        <tbody>
-                        <tr class="gradeX">
-                            <td>张三</td>
-                            <td>男</td>
-                            <td>13311396785</td>
-                            <td>101245194505076754</td>
-                            <td>2020/05/03</td>
-                            <td>201</td>
-                            <td>张梓华</td>
-                            <td>13735005331</td>
-                            <td>张晓文</td>
-                            <td>13311396445</td>
-                            <td style="text-align: center">
-                                <div class="btn-group">
-                                    <a class="fa fa-trash-o" title="删除" data-toggle="tooltip" href="#"><i class="mdi mdi-window-close"></i></a>
-                                </div>
-                            </td>
-                        </tr>
-
-                        <tr class="gradeC">
-                            <td id="testName"></td>
-                            <td id="testGender"></td>
-                            <td id="testPhone"></td>
-                            <td id="testIDcard"></td>
-                            <td id="testCheckinDate"></td>
-                            <td id="roomNumber"></td>
-                            <td id="testFirstGuardianName"></td>
-                            <td id="testFirstGuardianPhone"></td>
-                            <td id="testSecondGuardianName"></td>
-                            <td id="testSecondGuardianPhone"></td>
-                        </tr>
-
-                        <tr class="gradeA">
-                            <td>李四</td>
-                            <td>男</td>
-                            <td>13856136785</td>
-                            <td>101245195008304334</td>
-                            <td>2019/08/15</td>
-                            <td>202</td>
-                            <td>李华</td>
-                            <td>13535057431</td>
-                            <td>李晓华</td>
-                            <td>17383406445</td>
-                            <td style="text-align: center">
-                                <div class="btn-group">
-                                    <a class="fa fa-trash-o" title="删除" data-toggle="tooltip" href="#"><i class="mdi mdi-window-close"></i></a>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr class="gradeA">
-                            <td>王花花</td>
-                            <td>女</td>
-                            <td>18527996785</td>
-                            <td>101245196609032825</td>
-                            <td>2028/05/23</td>
-                            <td>203</td>
-                            <td>王栋</td>
-                            <td>13735008351</td>
-                            <td>王爽</td>
-                            <td>13374385314</td>
-                            <td style="text-align: center">
-                                <div class="btn-group">
-                                    <a class="fa fa-trash-o" title="删除" data-toggle="tooltip" href="#"><i class="mdi mdi-window-close"></i></a>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr class="gradeA">
-                            <td>赵芳华</td>
-                            <td>女</td>
-                            <td>18811096785</td>
-                            <td>101217195308076754</td>
-                            <td>2020/05/03</td>
-                            <td>204</td>
-                            <td>王谦</td>
-                            <td>13735085331</td>
-                            <td>于梅丽</td>
-                            <td>13311826445</td>
-                            <td style="text-align: center">
-                                <div class="btn-group">
-                                    <a class="fa fa-trash-o" title="删除" data-toggle="tooltip" href="#"><i class="mdi mdi-window-close"></i></a>
-                                </div>
-                            </td>
-                        </tr>
-
+                        <tbody id="oldPerson_table_body">
 
                         </tbody>
                     </table>
+                    <div class="div4" id="show" style="display: none">
+                        <label>确认修改该成员信息？</label>
+                        <a class="mb-xs mt-xs mr-xs modal-basic btn btn-primary" href="#modalForm2" onclick="doIt()">确认</a>
+                        <a  class="mb-xs mt-xs mr-xs btn btn-primary" href="xinxiLaoren.html" >返回</a>
+                    </div>
+
+                    <!-- 模态框-->
+                    <section class="panel">
+                        <!-- Modal Form -->
+                        <div id="modalForm1" class="modal-block modal-block-primary mfp-hide">
+                            <section class="panel">
+                                <header class="panel-heading">
+                                    <h2 class="panel-title">添加老人</h2>
+                                </header>
+                                <div class="panel-body">
+                                    <form id="demo-form" class="form-horizontal mb-lg" novalidate="novalidate">
+                                        <div class="form-group mt-lg">
+                                            <label class="col-sm-3 control-label">姓名</label>
+                                            <div class="col-sm-9">
+                                                <input type="text" id="oldPersonName"  class="form-control" placeholder="请输入老人的姓名..." required/>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label">性别</label>
+                                            <div class="col-sm-9">
+                                                <input type="text" id="oldPersonGender" class="form-control" placeholder="请输入老人的性别..." required/>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label">电话</label>
+                                            <div class="col-sm-9">
+                                                <input type="text" id="oldPersonTelephone"  class="form-control" placeholder="请输入老人的联系方式..." />
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label">身份证号</label>
+                                            <div class="col-sm-9">
+                                                <input type="text" id="oldPersonIdCard" class="form-control" placeholder="请输入老人的身份证号..." />
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label">入职日期</label>
+                                            <div class="col-sm-9">
+                                                <input type="text" id="oldPersonCheckInDate" class="form-control" placeholder="请输入老人的入职日期..." />
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label">描述</label>
+                                            <div class="col-sm-9">
+                                                <textarea rows="5" id="oldPersonDescription" class="form-control" placeholder="请输入对该老人的描述..." required></textarea>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                                <footer class="panel-footer">
+                                    <div class="row">
+                                        <div class="col-md-12 text-right">
+                                            <button class="btn btn-primary modal-confirm" onclick="addOldPerson()">添加</button>
+                                            <button class="btn btn-default modal-dismiss">返回</button>
+                                        </div>
+                                    </div>
+                                </footer>
+                            </section>
+                        </div>
+
+                        <div id="modalForm2" class="modal-block modal-block-primary mfp-hide">
+                            <section class="panel">
+                                <header class="panel-heading">
+                                    <h2 class="panel-title">修改老人信息</h2>
+                                </header>
+                                <div class="panel-body">
+                                    <form id="demo-form2" class="form-horizontal mb-lg" novalidate="novalidate">
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label">姓名</label>
+                                            <div class="col-sm-9">
+                                                <input type="text" id="oldPersonName2" class="form-control"  required/>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label">性别</label>
+                                            <div class="col-sm-9">
+                                                <input type="text" id="oldPersonGender2" class="form-control" placeholder="请输入老人的性别..." required/>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label">电话</label>
+                                            <div class="col-sm-9">
+                                                <input type="text" id="oldPersonTelephone2"  class="form-control" placeholder="请输入老人的联系方式..." />
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label">身份证号</label>
+                                            <div class="col-sm-9">
+                                                <input type="text" id="oldPersonIdCard2" class="form-control" placeholder="请输入老人的身份证号..." />
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label">入职日期</label>
+                                            <div class="col-sm-9">
+                                                <input type="text" id="oldPersonCheckInDate2" class="form-control" placeholder="请输入老人的入职日期..." />
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label">描述</label>
+                                            <div class="col-sm-9">
+                                                <textarea rows="5" id="oldPersonDescription2" class="form-control" placeholder="请输入对该老人的描述..." required></textarea>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                                <footer class="panel-footer">
+                                    <div class="row">
+                                        <div class="col-md-12 text-right">
+                                            <button class="btn btn-primary modal-confirm" onclick="editOldPerson()">修改</button>
+                                            <button class="btn btn-default modal-dismiss">返回</button>
+                                        </div>
+                                    </div>
+                                </footer>
+                            </section>
+                        </div>
+
+
+
+                    </section>
+
+
                 </div>
             </section>
             <!-- end: page -->
@@ -600,5 +964,6 @@
 <script src="assets/javascripts/tables/examples.datatables.default.js"></script>
 <script src="assets/javascripts/tables/examples.datatables.row.with.details.js"></script>
 <script src="assets/javascripts/tables/examples.datatables.tabletools.js"></script>
+<script src="assets/javascripts/ui-elements/examples.modals.js"></script>
 </body>
 </html>
