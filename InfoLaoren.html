@@ -42,7 +42,7 @@
 
         function getAge(strAge){
             if(strAge!=null){
-                var birthday = strAge.split("T");
+                var birthday = strAge.split(" ");
                 var birArr = birthday[0].split("-");
 
                 var birYear = birArr[0];
@@ -280,9 +280,7 @@
         <aside id="sidebar-left" class="sidebar-left">
 
             <div class="sidebar-header">
-                <div class="sidebar-title">
-                    Navigation
-                </div>
+
                 <div class="sidebar-toggle hidden-xs" data-toggle-class="sidebar-left-collapsed" data-target="html" data-fire-event="sidebar-left-toggle">
                     <i class="fa fa-bars" aria-label="Toggle sidebar"></i>
                 </div>
@@ -299,13 +297,7 @@
                                 </a>
                             </li>
 
-                            <li class="nav-parent">
-                                <a>
-                                    <i class="fa fa-copy" aria-hidden="true"></i>
-                                    <span>系统设置模块</span>
-                                </a>
 
-                            </li>
                             <li class="nav-parent">
                                 <a>
                                     <i class="fa fa-tasks" aria-hidden="true"></i>
@@ -318,7 +310,7 @@
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="tongjiLaoren.html">
+                                        <a href="getOlderInformation.html">
                                             信息采集
                                         </a>
                                     </li>
@@ -337,7 +329,7 @@
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="tongjiGongzuo.html">
+                                        <a href="getEmployeeInformation.html">
                                             信息采集
                                         </a>
                                     </li>
@@ -356,20 +348,20 @@
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="tongjiYigong.html">
+                                        <a href="getVolunteerInformation.html">
                                             信息采集
                                         </a>
                                     </li>
 
                                 </ul>
                             </li>
-                            <li class="nav-parent">
+                            <li class="nav-parent nav-expanded nav-active">
                                 <a>
                                     <i class="fa fa-map-marker" aria-hidden="true"></i>
                                     <span>数据管理</span>
                                 </a>
                                 <ul class="nav nav-children">
-                                    <li>
+                                    <li class="nav-active">
                                         <a href="InfoLaoren.html">
                                             老年人信息
                                         </a>
