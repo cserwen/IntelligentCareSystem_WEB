@@ -66,101 +66,94 @@
                 xhr.onreadystatechange = function() {
                     if (xhr.readyState == 4 && xhr.status == 200) {
                         var temp =JSON.parse(xhr.responseText);
+                        var information = temp['data'];
+                        let a = document.getElementById("volunteer_table_body");
+                        a.innerText="";
+                        for(var i=0;i<information.length;i++){
 
-                        if(temp['code'] == -2){
-                            alert("登录失效，请重新登录");
-                            window.location.href="signIn.html";
-                        }else{
-                            var information = temp['data'];
-                            let a = document.getElementById("volunteer_table_body");
-                            a.innerText="";
-                            for(var i=0;i<information.length;i++){
+                            let d =  document.createElement("tr");
+                            d.className="gradeX";
+                            d.style.border="1px solid #ddd";
+                            d.style.padding="8px";
+                            d.style.lineHeight="3";
+                            //d.style.verticalAlign="center";
+                            d.style.alignContent="center";
+                            d.style.backgroundColor="#f5f5f5";
+                            let a_2 =document.createElement("td");
+                            a_2.style.border="1px solid #ddd";
+                            let a_3 =document.createElement("td");
+                            a_3.style.border="1px solid #ddd";
+                            let a_4 =document.createElement("td");
+                            a_4.style.border="1px solid #ddd";
+                            let a_5 =document.createElement("td");
+                            a_5.style.border="1px solid #ddd";
+                            let a_6 =document.createElement("td");
+                            a_6.style.border="1px solid #ddd";
+                            let a_7 =document.createElement("td");
+                            a_7.style.border="1px solid #ddd";
+                            let a_8 =document.createElement("td");
 
-                                let d =  document.createElement("tr");
-                                d.className="gradeX";
-                                d.style.border="1px solid #ddd";
-                                d.style.padding="8px";
-                                d.style.lineHeight="3";
-                                //d.style.verticalAlign="center";
-                                d.style.alignContent="center";
-                                d.style.backgroundColor="#f5f5f5";
-                                let a_2 =document.createElement("td");
-                                a_2.style.border="1px solid #ddd";
-                                let a_3 =document.createElement("td");
-                                a_3.style.border="1px solid #ddd";
-                                let a_4 =document.createElement("td");
-                                a_4.style.border="1px solid #ddd";
-                                let a_5 =document.createElement("td");
-                                a_5.style.border="1px solid #ddd";
-                                let a_6 =document.createElement("td");
-                                a_6.style.border="1px solid #ddd";
-                                let a_7 =document.createElement("td");
-                                a_7.style.border="1px solid #ddd";
-                                let a_8 =document.createElement("td");
+                            a_8.style.border="1px solid #ddd";
+                            let action1 = document.createElement("button");
+                            action1.type="button"
+                            action1.setAttribute("class","mb-xs mt-xs mr-xs btn btn-success");
+                            action1.innerText="修改";
+                            action1.id=information[i]['name'];
 
-                                a_8.style.border="1px solid #ddd";
-                                let action1 = document.createElement("button");
-                                action1.type="button"
-                                action1.setAttribute("class","mb-xs mt-xs mr-xs btn btn-success");
-                                action1.innerText="修改";
-                                action1.id=information[i]['name'];
+                            // action1.setAttribute('data-target',"#modalForm1");
+                            action1.onclick=function(){
+                                var volunteerName2 = document.getElementById("volunteerName2");
+                                volunteerName2.value=action1.id;
 
-                                // action1.setAttribute('data-target',"#modalForm1");
-                                action1.onclick=function(){
-                                    var volunteerName2 = document.getElementById("volunteerName2");
-                                    volunteerName2.value=action1.id;
-
-                                    volunteerName2.setAttribute("disabled","true");
-                                    doIt();
+                                volunteerName2.setAttribute("disabled","true");
+                                doIt();
 
 
 
-                                }
-                                // // action1.setAttribute('innerText',"修改信息");
-                                // action1.href=modalBox;
-                                // action1.class="modal-with-form btn btn-default";
-                                // action1.innerText="修改信息";
-                                // action1.appendChild(button1);
-
-                                let action2 = document.createElement("button");
-                                action2.type="button";
-                                action2.id=information[i]['id'];
-                                action2.setAttribute("class","mb-xs mt-xs mr-xs btn btn-success");
-                                action2.innerText = "删除";
-                                action2.onclick=function(){
-                                    deleteVolunteer(action2.id);
-                                }
-
-                                let action3 = document.createElement("button");
-                                action3.type="button";
-                                action3.innerText = "采集信息";
-                                action3.id=information[i]['username'];
-                                action3.setAttribute("class","mb-xs mt-xs mr-xs btn btn-success");
-                                action3.onclick=function(){
-                                    logIn(action3.id);
-                                }
-                                a_2.textContent =information[i]['name'];
-                                a_3.textContent=information[i]['gender'];
-                                a_4.textContent=information[i]['phone'];
-                                a_5.textContent=information[i]['idCard'];
-                                a_6.textContent=information[i]['checkInDate'];
-                                a_7.textContent=information[i]['description'];
-                                a_8.append(action1);
-                                a_8.append(action2);
-                                a_8.append(action3);
-                                d.appendChild(a_2);
-                                d.appendChild(a_3);
-                                d.appendChild(a_4);
-                                d.appendChild(a_5);
-                                d.appendChild(a_6);
-                                d.appendChild(a_7);
-                                d.appendChild(a_8);
-                                a.appendChild(d);
                             }
+                            // // action1.setAttribute('innerText',"修改信息");
+                            // action1.href=modalBox;
+                            // action1.class="modal-with-form btn btn-default";
+                            // action1.innerText="修改信息";
+                            // action1.appendChild(button1);
+
+                            let action2 = document.createElement("button");
+                            action2.type="button";
+                            action2.id=information[i]['id'];
+                            action2.setAttribute("class","mb-xs mt-xs mr-xs btn btn-success");
+                            action2.innerText = "删除";
+                            action2.onclick=function(){
+                                deleteVolunteer(action2.id);
+                            }
+
+                            let action3 = document.createElement("button");
+                            action3.type="button";
+                            action3.innerText = "采集信息";
+                            action3.id=information[i]['username'];
+                            action3.setAttribute("class","mb-xs mt-xs mr-xs btn btn-success");
+                            action3.onclick=function(){
+                                logIn(action3.id);
+                            }
+                            a_2.textContent =information[i]['name'];
+                            a_3.textContent=information[i]['gender'];
+                            a_4.textContent=information[i]['phone'];
+                            a_5.textContent=information[i]['idCard'];
+                            a_6.textContent=information[i]['checkInDate'];
+                            a_7.textContent=information[i]['description'];
+                            a_8.append(action1);
+                            a_8.append(action2);
+                            a_8.append(action3);
+                            d.appendChild(a_2);
+                            d.appendChild(a_3);
+                            d.appendChild(a_4);
+                            d.appendChild(a_5);
+                            d.appendChild(a_6);
+                            d.appendChild(a_7);
+                            d.appendChild(a_8);
+                            a.appendChild(d);
                         }
                     }
-                        }
-
+                }
                 var text={
                     "id": 0
                 };
