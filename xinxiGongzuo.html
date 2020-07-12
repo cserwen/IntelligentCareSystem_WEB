@@ -55,7 +55,57 @@
         }
     </style>
     <script>
+        function getAge(strAge){
+            if(strAge!=null){
+                var birthday = strAge.split(" ");
+                var birArr = birthday[0].split("-");
 
+                var birYear = birArr[0];
+                var birMonth = birArr[1];
+                var birDay = birArr[2];
+
+                d = new Date();
+                var nowYear = d.getFullYear();
+                var nowMonth = d.getMonth() + 1; //记得加1
+                var nowDay = d.getDate();
+                var returnAge;
+
+                if (birArr == null) {
+                    return false;
+                }
+
+                var d = new Date(birYear, birMonth - 1, birDay);
+                if (d.getFullYear() == birYear && (d.getMonth() + 1) == birMonth && d.getDate() == birDay) {
+                    if (nowYear == birYear) {
+                        returnAge = 0; //
+                    } else {
+                        var ageDiff = nowYear - birYear; //
+                        if (ageDiff > 0) {
+                            if (nowMonth == birMonth) {
+                                var dayDiff = nowDay - birDay; //
+                                if (dayDiff < 0) {
+                                    returnAge = ageDiff - 1;
+                                } else {
+                                    returnAge = ageDiff;
+                                }
+                            } else {
+                                var monthDiff = nowMonth - birMonth; //
+                                if (monthDiff < 0) {
+                                    returnAge = ageDiff - 1;
+                                } else {
+                                    returnAge = ageDiff;
+                                }
+                            }
+                        } else {
+                            return  "出生日期晚于今天，数据有误"; //返回-1 表示出生日期输入错误 晚于今天
+                        }
+                    }
+                    return returnAge;
+                } else {
+                    return ("输入的日期格式错误！");
+                }
+            }
+        }
         function getTabele() {
             if (sessionStorage.getItem("token")==null){
                 //var myurl="signIn.html";
@@ -92,8 +142,9 @@
                             let a_7 =document.createElement("td");
                             a_7.style.border="1px solid #ddd";
                             let a_8 =document.createElement("td");
-
                             a_8.style.border="1px solid #ddd";
+                            let a_9 =document.createElement("td");
+                            a_9.style.border="1px solid #ddd";
                             let action1 = document.createElement("button");
                             action1.type="button"
                             action1.setAttribute("class","mb-xs mt-xs mr-xs btn btn-success");
@@ -140,11 +191,20 @@
                             a_5.textContent=information[i]['idCard'];
                             a_6.textContent=information[i]['checkInDate'];
                             a_7.textContent=information[i]['description'];
+                            var ageTime=information[i]['birthday'];
+                            if(ageTime!= null){
+                                var age = getAge(ageTime);
+                                a_9.textContent=age;
+                            }else{
+                                a_9.textContent="-";
+                            }
+
                             a_8.append(action1);
                             a_8.append(action2);
                             a_8.append(action3);
                             d.appendChild(a_2);
                             d.appendChild(a_3);
+                            d.appendChild(a_9);
                             d.appendChild(a_4);
                             d.appendChild(a_5);
                             d.appendChild(a_6);
@@ -202,8 +262,9 @@
                             let a_7 =document.createElement("td");
                             a_7.style.border="1px solid #ddd";
                             let a_8 =document.createElement("td");
-
                             a_8.style.border="1px solid #ddd";
+                            let a_9 =document.createElement("td");
+                            a_9.style.border="1px solid #ddd";
                             let action1 = document.createElement("button");
                             action1.type="button"
                             action1.innerText="修改";
@@ -243,11 +304,22 @@
                             a_5.textContent=information['idCard'];
                             a_6.textContent=information['checkInDate'];
                             a_7.textContent=information['description'];
+                            var ageTime=information['birthday'];
+                            if(ageTime!= null){
+                                var age = getAge(ageTime);
+                                a_9.textContent=age;
+                            }else{
+                                a_9.textContent="-";
+                            }
+
+
+
                             a_8.append(action1);
                             a_8.append(action2);
                             a_8.append(action3);
                             d.appendChild(a_2);
                             d.appendChild(a_3);
+                            d.appendChild(a_9);
                             d.appendChild(a_4);
                             d.appendChild(a_5);
                             d.appendChild(a_6);
@@ -308,6 +380,7 @@
             var xhr = new XMLHttpRequest();
             var employeeName = document.getElementById("employeeName").value;
             var employeeGender = document.getElementById("employeeGender").value;
+            var employeeBirthday = document.getElementById("employeeBirthday").value;
             var employeeTelephone = document.getElementById("employeeTelephone").value;
             var employeeIdCard = document.getElementById("employeeIdCard").value;
             var employeeCheckInDate = document.getElementById("employeeCheckInDate").value;
@@ -324,6 +397,7 @@
                 "username": employeeName,
                 "password":"123",
                 "gender":employeeGender,
+                "birthday":employeeBirthday + " 12:00:00",
                 "phone":employeeTelephone,
                 "idCard":employeeIdCard,
                 "checkInDate":employeeCheckInDate,
@@ -544,11 +618,7 @@
                                 </a>
                             </li>
 
-                            <li class="nav-parent">
-                                <a>
-                                    <i class="fa fa-copy" aria-hidden="true"></i>
-                                    <span>系统设置模块</span>
-                                </a>
+
 
                             </li>
                             <li class="nav-parent">
@@ -737,6 +807,7 @@
                         <tr>
                             <th>姓名</th>
                             <th>性别</th>
+                            <th>年龄</th>
                             <th>电话</th>
                             <th>身份证号</th>
                             <th>入职日期</th>
@@ -774,6 +845,12 @@
                                             <label class="col-sm-3 control-label">性别</label>
                                             <div class="col-sm-9">
                                                 <input type="text" id="employeeGender" class="form-control" placeholder="请输入工作人员的性别..." required/>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label">生日</label>
+                                            <div class="col-sm-9">
+                                                <input type="text" id="employeeBirthday" class="form-control" placeholder="请输入工作人员的生日..." required/>
                                             </div>
                                         </div>
                                         <div class="form-group">
