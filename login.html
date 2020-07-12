@@ -13,7 +13,7 @@
                 var xhr = new XMLHttpRequest();
                 xhr.onreadystatechange = function() {
                     if (xhr.readyState == 4 && xhr.status == 200) {
-                         localStorage.setItem("token",xhr.responseText);
+                         sessionStorage.setItem("token",xhr.responseText);
                         //document.cookie = xhr.responseText;
                         window.location.href="2.html";
                     }
