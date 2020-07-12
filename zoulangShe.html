@@ -47,11 +47,25 @@
 
     <script src="http://vjs.zencdn.net/ie8/1.1.1/videojs-ie8.min.js"></script>
     <link href="css/video-js.min.css" rel="stylesheet">
+    <style scoped>
+        .div4 {
+            width: 600px;
+            height: 420px;
+            opacity:1;
+            border: 1px solid black;
+            position: fixed;
+            left: 350px;
+            top: 150px;
+            background:white;
+            z-index: 3;
+
+        }
+    </style>
     <style>
 
         .m {
-            width: 800px;
-            height: 480px;
+            width: 960px;
+            height: 580px;
             margin-left: 50px;
             margin-right: auto;
             margin-top: 50px;
@@ -64,7 +78,6 @@
     <script>
         videojs.options.flash.swf = "video-js.swf";
     </script>
-
     <script>
         var eventNumber = 0;
         function webSocket()
@@ -95,17 +108,20 @@
 
                     var div2 = document.createElement("div");
                     div2.setAttribute("class","well danger");
-                    var button1 = document.createElement("p");
+                    var textMsg = document.createElement("p");
                     // button1.type="button";
-                    button1.innerText=temp['data'][0]['eventDate']+" "+temp['data'][0]['eventDesc'];
-                    button1.onclick=function(){
-                        alert(received_msg);
+                    var eventDate = temp['data'][0]['eventDate'];
+                    var eventDates = eventDate.split("CST");
+                    eventDate = eventDates[0]+""+eventDates[1]
+                    textMsg.innerText=eventDate+""+temp['data'][0]['eventDesc'];
+                    div2.onclick=function(){
+                        doIt2(temp['data'][0]);
                         div2.setAttribute("class","well primary");
                     }
 
 
 
-                    div2.appendChild(button1);
+                    div2.appendChild(textMsg);
                     div1.appendChild(div2);
 
                     // // var newDiv = document.createAttribute("div");
@@ -134,13 +150,87 @@
                 //  alert("您的浏览器不支持 WebSocket!");
             }
         }
-        function report() {
-            alert("好的");
+        function arrayBufferToBase64(buffer) {
+            var binary = '';
+            var bytes = new Uint8Array(buffer);
+            var len = bytes.byteLength;
+            for (var i = 0; i < len; i++) {
+                binary += String.fromCharCode(bytes[i]);
+            }
+            return window.btoa(binary);
+        }
+        function getPicture() {
+
+        }
+        function doIt() {
+            var div = document.getElementById("show");
+            if (div.style.display == "block" ) {
+                div.style.display = "none";
+            } else {
+                div.style.display = "block";
+            }
+        }
+        function doIt2(eventMessage) {
+            var div = document.getElementById("show");
+
+            div.style.display = "none";
+            div.style.display = "block";
+            var textMsg = document.createElement("p");
+            var gotIt = document.createElement("button");
+            gotIt.setAttribute("class","mb-xs mt-xs mr-xs  btn btn-primary");
+            gotIt.setAttribute("style","float:right");
+            gotIt.innerText="确认";
+            gotIt.onclick=function () {
+                doIt();
+            }
+            var eventDate = eventMessage['eventDate'];
+            var eventDates = eventDate.split("CST");
+            eventDate = eventDates[0]+" "+eventDates[1]
+            textMsg.innerText="事件发生时间:"+eventDate+"\n事件发生地点:"+eventMessage['eventLocation']
+                +"\n事件内容:"+eventMessage['eventDesc'];
+            var img =document.createElement("img");
+            var xhr = new XMLHttpRequest();
+            xhr.withCredentials = true;
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+
+                }
+            }
+            var text={
+                "id": "1"
+            };
+
+            text= JSON.stringify(text);
+            url="http://123.56.92.168:8888/event/getPicture";
+            xhr.open("post", url, true);
+            //xhr.responseType = "blob";
+            xhr.setRequestHeader("Content-Type","application/json;charset=UTF-8");
+            xhr.setRequestHeader("token",sessionStorage.getItem("token"));
+            xhr.setRequestHeader("id",eventMessage['id']);
+            xhr.responseType = 'arraybuffer'; //
+            xhr.onload = function(e) {
+                if (this.status == 200) {
+                    let result = this.response;
+                    console.log(result);
+                    var url= arrayBufferToBase64(result);
+                    // document.getElementById('img').src='data:image/jpeg;base64,'+url;
+
+
+                    //
+                    img.src='data:image/jpeg;base64,'+url;
+
+                }
+            };//
+            xhr.send(text);
+            div.innerHTML="";
+            div.appendChild(textMsg);
+            div.appendChild(img);
+            div.appendChild(document.createElement("br"));
+            div.appendChild(gotIt);
 
 
         }
     </script>
-
 </head>
 <body onload="webSocket()">
 <section class="body">
@@ -299,7 +389,7 @@
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="tongjiLaoren.html">
+                                        <a href="getOlderInformation.html">
                                             信息采集
                                         </a>
                                     </li>
@@ -318,7 +408,7 @@
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="tongjiGongzuo.html">
+                                        <a href="getEmployeeInformation.html">
                                             信息采集
                                         </a>
                                     </li>
@@ -337,7 +427,7 @@
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="tongjiYigong.html">
+                                        <a href="getVolunteerInformation.html">
                                             信息采集
                                         </a>
                                     </li>
@@ -367,13 +457,13 @@
                                     </li>
                                 </ul>
                             </li>
-                            <li class="nav-parent">
+                            <li class="nav-parent nav-expanded nav-active">
                                 <a>
                                     <i class="fa fa-columns" aria-hidden="true"></i>
                                     <span>摄像头管理</span>
                                 </a>
                                 <ul class="nav nav-children">
-                                    <li>
+                                    <li class="nav-active">
                                         <a href="fangjianShe.html">
                                             房间摄像头
                                         </a>
@@ -467,11 +557,10 @@
                 <div class="row">
                     <div class="col-md-9">
                         <div class="m">
-                            <video id="my-video" class="video-js" muted autoplay="autoplay"  width="760" height="480" data-setup="{}">
+                            <video id="my-video" class="video-js" muted autoplay="autoplay"  width="960" height="580" data-setup="{}">
 
-                                <!--   controls autoplay preload="auto"   -->
-                                <source src="rtmp://123.56.92.168:1935/rtmplive/" type="rtmp/flv">
-                                <!--     <source src="rtmp://58.200.131.2:1935/livetv/hunantv" type="rtmp/flv">   -->
+                                <!-- <source src="rtmp://123.56.92.168:1935/rtmplive/" type="rtmp/flv">   -->
+                                <source src="rtmp://39.97.107.19:1935/rtmplive/" type="rtmp/flv">
 
                                 <p class="vjs-no-js">播放视频需要启用 JavaScript，推荐使用支持HTML5的浏览器访问。
 
@@ -483,14 +572,11 @@
 
                             </video>
 
-
-
                             <script src="http://vjs.zencdn.net/5.8.8/video.js"></script>
                         </div>
                     </div>
 
                     <div class="col-md-3">
-
                         <hr />
                         <section class="panel">
                             <header class="panel-heading">
@@ -508,8 +594,11 @@
 
                                 <!--                            </div>-->
                             </div>
-                        </section>
+                            <div class="div4" id="show" style="display: none">
+                                <!--                                <button class="mb-xs mt-xs mr-xs btn btn-primary" onclick="doIt()">确认</button>-->
 
+                            </div>
+                        </section>
 
                     </div>
 
@@ -605,3 +694,4 @@
 <script src="assets/javascripts/dashboard/examples.dashboard.js"></script>
 </body>
 </html>
+
